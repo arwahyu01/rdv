@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RDV — Architecting The Virtual Frontier</title>
+    <title>RDV — Digital Venturer Command Center</title>
     
-    <!-- Libraries -->
+    <!-- Core Assets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -15,7 +15,7 @@
         :root {
             --accent: #00f2ff;
             --secondary: #7000ff;
-            --bg-dark: #050505;
+            --bg-dark: #020617;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
@@ -24,108 +24,138 @@
             background-color: var(--bg-dark);
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-            margin: 0;
+            margin: 0; overflow-x: hidden;
         }
 
-        /* Canvas 3D Container */
+        /* FIX: 3D Background berada di paling belakang */
         #canvas-container {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: -1;
+            z-index: -1; 
+            pointer-events: none; /* Agar tidak menghalangi klik */
         }
 
-        /* Glassmorphism Navbar */
+        /* Lapisan Konten Utama */
+        #main-wrapper {
+            position: relative;
+            z-index: 10; /* Pastikan di atas canvas */
+        }
+
+        /* Navbar FIX */
         .navbar {
             backdrop-filter: blur(20px);
-            background: rgba(5, 5, 5, 0.8);
+            background: rgba(2, 6, 23, 0.8);
             border-bottom: 1px solid var(--glass-border);
-            padding: 20px 0;
+            z-index: 1000;
         }
 
         .navbar-brand {
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700; letter-spacing: -1px;
-            font-size: 1.8rem; color: #fff !important;
+            font-weight: 700; font-size: 1.8rem; color: #fff !important;
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero-section {
             min-height: 100vh;
             display: flex; align-items: center;
-            padding-top: 100px;
+            padding: 120px 0 60px;
         }
 
         .hero-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6.5rem);
-            font-weight: 700; line-height: 0.85;
-            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.2));
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700; line-height: 0.9;
+            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.3));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* 3D Bento Card */
+        /* Bento Card Modern */
         .bento-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 30px;
-            padding: 40px;
+            padding: 35px;
             height: 100%;
             position: relative;
-            overflow: hidden;
             backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .bento-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at var(--x) var(--y), rgba(0,242,255,0.15), transparent 40%);
-            opacity: 0; transition: opacity 0.3s;
+        .bento-card:hover {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.06);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
         }
-
-        .bento-card:hover::before { opacity: 1; }
 
         .card-icon {
-            font-size: 2.5rem; color: var(--accent); margin-bottom: 25px;
-            filter: drop-shadow(0 0 15px var(--accent));
+            font-size: 2.5rem; color: var(--accent); margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px var(--accent));
         }
 
-        .btn-launch {
-            background: var(--accent); color: #000;
-            border: none; padding: 12px 30px; border-radius: 100px;
-            font-weight: 800; transition: 0.3s; text-decoration: none; display: inline-block;
+        /* FIX TOMBOL: Pastikan z-index tinggi dan position relative */
+        .btn-action {
+            position: relative;
+            z-index: 50;
+            background: var(--accent);
+            color: #000 !important;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .btn-launch:hover {
-            box-shadow: 0 0 30px var(--accent); transform: translateY(-3px);
-            color: #000;
+        .btn-action:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4);
         }
 
-        /* Profile & Contact Section */
-        .info-section {
-            background: linear-gradient(to bottom, transparent, rgba(112,0,255,0.05));
+        .btn-outline-custom {
+            border: 1px solid var(--accent);
+            color: var(--accent) !important;
+            padding: 11px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn-outline-custom:hover {
+            background: rgba(0, 242, 255, 0.1);
+            color: white !important;
+        }
+
+        /* Alamat & Profil Section */
+        .profile-section {
             padding: 100px 0;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid var(--glass-border);
         }
 
-        .address-box {
+        .address-card {
             background: rgba(255,255,255,0.02);
-            border-radius: 20px; border: 1px solid var(--glass-border); padding: 30px;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
         }
 
-        /* Tech Tags */
         .tech-tag {
-            font-size: 10px; font-weight: 800; letter-spacing: 1px;
+            font-size: 10px; font-weight: 800;
             padding: 5px 12px; border-radius: 100px;
             background: rgba(0,242,255,0.1); color: var(--accent);
-            border: 1px solid rgba(0,242,255,0.2); margin-right: 5px;
+            margin-right: 5px;
         }
 
         footer {
-            border-top: 1px solid var(--glass-border);
-            padding: 40px 0; text-align: center; color: #666;
+            padding: 40px 0; border-top: 1px solid var(--glass-border);
+            text-align: center; color: #475569; font-size: 14px;
         }
     </style>
 </head>
@@ -134,199 +164,214 @@
     <!-- 3D Background Canvas -->
     <div id="canvas-container"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top px-4">
-        <div class="container">
-            <a class="navbar-brand" href="#">RDV<span style="color:var(--accent)">_</span></a>
-            <div class="ms-auto">
-                <a href="#ecosystem" class="text-white text-decoration-none fw-bold small me-4 d-none d-md-inline">ECOSYSTEM</a>
-                <a href="#contact" class="btn btn-outline-light rounded-pill px-4 btn-sm fw-bold">CONTACT</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-10">
-                    <span class="text-accent fw-bold mb-3 d-block" data-aos="fade-right">RIAU DIGITAL VENTURER</span>
-                    <h1 class="hero-title mb-4" data-aos="fade-up">ARCHITECTING THE <span style="color:var(--accent)">VIRTUAL</span> FRONTIER<span style="color:var(--secondary)">.</span></h1>
-                    <p class="lead text-white-50 mb-5" data-aos="fade-up" data-aos-delay="100" style="max-width: 600px;">
-                        Inkubator inovasi teknologi yang berfokus pada pembangunan ekosistem digital berskala masif. Kami mengubah data menjadi pengalaman yang luar biasa.
-                    </p>
-                    <div class="d-flex gap-3" data-aos="fade-up" data-aos-delay="200">
-                        <a href="#ecosystem" class="btn-launch">Explore Ecosystem</a>
-                        <a href="#profile" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold">Who We Are</a>
-                    </div>
+    <div id="main-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top px-4">
+            <div class="container">
+                <a class="navbar-brand" href="#">RDV<span style="color:var(--accent)">.</span></a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto gap-3">
+                        <li class="nav-item"><a class="nav-link text-white" href="#ecosystem">Ecosystem</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="#profile">About</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="#contact">Contact</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <!-- Project Ecosystem -->
-    <section id="ecosystem" class="container py-5">
-        <div class="row mb-5">
-            <div class="col-md-6">
-                <h2 class="display-4 fw-bold" data-aos="fade-right">Digital <span class="text-accent">Hub</span></h2>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <!-- DRY24 -->
-            <div class="col-lg-8" data-aos="fade-up">
-                <div class="bento-card" data-tilt>
-                    <div class="card-icon"><i class="fas fa-wind"></i></div>
-                    <div class="mb-3">
-                        <span class="tech-tag">SAAS</span><span class="tech-tag">AUTOMATION</span>
-                    </div>
-                    <h2 class="fw-bold display-5">Dry24</h2>
-                    <p class="text-white-50 mb-4 fs-5">Ekosistem manajemen laundry terintegrasi dengan WhatsApp Cloud API. Solusi nomor satu untuk efisiensi bisnis laundry di Indonesia.</p>
-                    <div class="d-flex gap-3">
-                        <a href="https://dry24.id" class="btn-launch">Live Web</a>
-                        <a href="dry24-lab.html" class="btn btn-outline-info rounded-pill px-4">UI Explorer Hub</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SAKUONLINE -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="bento-card" data-tilt>
-                    <div class="card-icon"><i class="fas fa-wallet"></i></div>
-                    <h3 class="fw-bold">SakuOnline</h3>
-                    <p class="text-white-50 small">Sistem pembayaran digital dan manajemen keuangan mikro yang aman dan transparan.</p>
-                    <a href="https://sakuonline.id" class="text-accent text-decoration-none fw-bold">Launch Project <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <!-- KASIRINDO -->
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="bento-card" data-tilt>
-                    <div class="card-icon"><i class="fas fa-cash-register"></i></div>
-                    <h3 class="fw-bold">KasirIndo</h3>
-                    <p class="text-white-50 small">Point of Sales (POS) cerdas dengan analitik data mendalam untuk bisnis retail.</p>
-                    <a href="https://kasirindo.id" class="text-accent text-decoration-none fw-bold">Launch Project <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <!-- WAREHOUSE -->
-            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
-                <div class="bento-card" data-tilt>
-                    <div class="row align-items-center">
-                        <div class="col-md-7">
-                            <div class="card-icon"><i class="fas fa-boxes-stacked"></i></div>
-                            <h3 class="fw-bold">RDV Warehouse</h3>
-                            <p class="text-white-50">Sistem manajemen pergudangan skala besar dengan tracking stok real-time dan integrasi logistik.</p>
-                            <span class="badge bg-secondary">INTERNAL PREVIEW</span>
-                        </div>
-                        <div class="col-md-5 opacity-25">
-                            <i class="fas fa-cubes fa-8x"></i>
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10" data-aos="fade-up">
+                        <span class="text-accent fw-bold mb-3 d-block letter-spacing-3">CV. RIAU DIGITAL VENTURER</span>
+                        <h1 class="hero-title mb-4">TRANSFORMING <br> IDEAS INTO <span style="color:var(--accent)">DIGITAL</span> ASSETS<span style="color:var(--secondary)">_</span></h1>
+                        <p class="lead text-white-50 mb-5" style="max-width: 650px;">
+                            Pusat inovasi teknologi di Pekanbaru yang membangun sistem otomasi, fintech, dan solusi digital masa depan dengan standar industri global.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#ecosystem" class="btn-action">View Ecosystem <i class="fas fa-rocket ms-2"></i></a>
+                            <a href="https://wa.me/6282285002564" class="btn-outline-custom">Consultation <i class="fab fa-whatsapp ms-2"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Profile Section -->
-    <section id="profile" class="info-section">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <h2 class="fw-bold display-5 mb-4">The <span class="text-accent">Vision</span></h2>
-                    <p class="text-white-50 fs-5 mb-4">
-                        RDV (Riau Digital Venturer) bukan sekadar pengembang software. Kami adalah penjelajah di dunia digital yang berkomitmen membangun infrastruktur teknologi yang membantu bisnis skala kecil hingga besar tumbuh lebih cepat di era digital.
-                    </p>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <h4 class="text-accent mb-0">180+</h4>
-                            <small class="text-white-50">Active Outlets</small>
+        <!-- Ecosystem Grid -->
+        <section id="ecosystem" class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h2 class="display-4 fw-bold">RDV <span class="text-accent">Ecosystem</span></h2>
+                <p class="text-white-50">Produk teknologi yang kami kembangkan dan kelola.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Dry24 -->
+                <div class="col-lg-8" data-aos="fade-up">
+                    <div class="bento-card">
+                        <div>
+                            <div class="card-icon"><i class="fas fa-wind"></i></div>
+                            <div class="mb-3">
+                                <span class="tech-tag">LARAVEL</span><span class="tech-tag">CLOUD API</span>
+                            </div>
+                            <h2 class="fw-bold display-5">Dry24.id</h2>
+                            <p class="text-white-50 fs-5 mb-4">
+                                Solusi manajemen laundry cerdas. Satu-satunya sistem dengan integrasi WhatsApp otomatis dan multi-cabang yang user-friendly.
+                            </p>
                         </div>
-                        <div class="col-6">
-                            <h4 class="text-accent mb-0">50K+</h4>
-                            <small class="text-white-50">Daily Transactions</small>
+                        <div class="d-flex gap-3 mt-3">
+                            <!-- Link ke Lab Variant -->
+                            <a href="dry24-lab.html" class="btn-action">Enter UI Lab</a>
+                            <a href="https://dry24.id" class="btn-outline-custom">Visit Website</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div id="contact" class="address-box">
-                        <h4 class="fw-bold mb-4 text-white">Hubungi Kami</h4>
-                        <p class="text-white-50"><i class="fas fa-map-marker-alt text-accent me-3"></i> Pekanbaru, Riau, Indonesia</p>
-                        <p class="text-white-50"><i class="fab fa-whatsapp text-accent me-3"></i> +62 822-8500-2564</p>
-                        <p class="text-white-50"><i class="fas fa-envelope text-accent me-3"></i> management@dry24.id</p>
-                        <hr class="border-secondary my-4">
-                        <h5 class="fw-bold mb-3">Ikuti Inovasi Kami</h5>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="btn btn-outline-light rounded-circle"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="btn btn-outline-light rounded-circle"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="btn btn-outline-light rounded-circle"><i class="fab fa-github"></i></a>
+
+                <!-- SakuOnline -->
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bento-card">
+                        <div>
+                            <div class="card-icon"><i class="fas fa-wallet"></i></div>
+                            <h3 class="fw-bold">SakuOnline.id</h3>
+                            <p class="text-white-50 small">Platform digital wallet dan sistem manajemen keuangan mikro yang efisien.</p>
+                        </div>
+                        <a href="https://sakuonline.id" class="btn-outline-custom mt-3 text-center">Open App</a>
+                    </div>
+                </div>
+
+                <!-- KasirIndo -->
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bento-card">
+                        <div>
+                            <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <h3 class="fw-bold">KasirIndo.id</h3>
+                            <p class="text-white-50 small">Sistem Point of Sale (POS) cloud untuk akselerasi bisnis retail dan F&B.</p>
+                        </div>
+                        <a href="https://kasirindo.id" class="btn-outline-custom mt-3 text-center">Open App</a>
+                    </div>
+                </div>
+
+                <!-- Warehouse -->
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="bento-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <div class="card-icon"><i class="fas fa-boxes-stacked"></i></div>
+                                <h3 class="fw-bold">RDV Warehouse</h3>
+                                <p class="text-white-50">Sistem manajemen stok cerdas berskala Enterprise dengan tracking real-time.</p>
+                                <span class="badge bg-secondary">INTERNAL PROJECT</span>
+                            </div>
+                            <div class="col-md-5 d-none d-md-block opacity-10">
+                                <i class="fas fa-cubes-stacked fa-8x"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <div class="container">
-            <p>© 2024 CV. Riau Digital Venturer. Crafting the Digital Future from Pekanbaru.</p>
-        </div>
-    </footer>
+        <!-- Profile Section -->
+        <section id="profile" class="profile-section">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h2 class="display-4 fw-bold mb-4">Our <span class="text-accent">Vision</span></h2>
+                        <p class="text-white-50 fs-5">
+                            RDV hadir untuk mendigitalisasi sektor UMKM dan korporasi di Indonesia. Kami percaya bahwa teknologi harus dapat diakses dan mudah digunakan untuk semua orang.
+                        </p>
+                        <div class="mt-5">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-sm bg-accent me-3"></div>
+                                <span>Inovasi Tanpa Batas</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-sm bg-accent me-3"></div>
+                                <span>Keamanan Data Prioritas Utama</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contact" class="col-lg-6" data-aos="fade-left">
+                        <div class="address-card">
+                            <h4 class="fw-bold mb-4">Company Profile</h4>
+                            <div class="mb-4">
+                                <small class="text-accent fw-bold d-block mb-1">ALAMAT</small>
+                                <p class="text-white-50">Jl. HR. Soebrantas, Panam, Kota Pekanbaru, Riau, Indonesia</p>
+                            </div>
+                            <div class="mb-4">
+                                <small class="text-accent fw-bold d-block mb-1">EMAIL</small>
+                                <p class="text-white-50">management@dry24.id</p>
+                            </div>
+                            <div class="mb-4">
+                                <small class="text-accent fw-bold d-block mb-1">WHATSAPP</small>
+                                <p class="text-white-50">+62 822-8500-2564</p>
+                            </div>
+                            <hr class="border-secondary mb-4">
+                            <div class="d-flex gap-3">
+                                <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-white fs-4"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="text-white fs-4"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="container">
+            <p>© 2024–2026 CV. Riau Digital Venturer. Crafting the Digital Future from Pekanbaru.</p>
+        </footer>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-
+    
     <script>
-        // Init AOS
         AOS.init({ duration: 1000, once: true });
 
-        // 3D Three.js Particles
-        const container = document.getElementById('canvas-container');
+        // --- Three.js Background Animation ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 1500;
-        const posArray = new Float32Array(particlesCount * 3);
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 2000;
+        const starPos = new Float32Array(starCount * 3);
 
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+        for(let i=0; i < starCount * 3; i++) {
+            starPos[i] = (Math.random() - 0.5) * 10;
         }
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const material = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0x00f2ff,
-            transparent: true,
-            opacity: 0.8
-        });
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({ color: 0x00f2ff, size: 0.005 });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
 
-        const particlesMesh = new THREE.Points(particlesGeometry, material);
-        scene.add(particlesMesh);
-        camera.position.z = 3;
+        camera.position.z = 2;
 
-        document.addEventListener('mousemove', animateParticles);
         let mouseX = 0;
         let mouseY = 0;
 
-        function animateParticles(event) {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        }
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) / 100;
+            mouseY = (e.clientY - window.innerHeight / 2) / 100;
+        });
 
         function animate() {
             requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.001;
-            if (mouseX > 0) {
-                particlesMesh.rotation.x = mouseY * 0.00008;
-                particlesMesh.rotation.y = mouseX * 0.00008;
-            }
+            stars.rotation.y += 0.001;
+            stars.rotation.x += 0.0005;
+            
+            // Gerakan halus mengikuti mouse
+            stars.position.x += (mouseX - stars.position.x) * 0.05;
+            stars.position.y += (-mouseY - stars.position.y) * 0.05;
+
             renderer.render(scene, camera);
         }
         animate();
@@ -335,17 +380,6 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Interactive Bento Hover Effect
-        document.querySelectorAll('.bento-card').forEach(card => {
-            card.onmousemove = e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--x', `${x}px`);
-                card.style.setProperty('--y', `${y}px`);
-            }
         });
     </script>
 </body>
