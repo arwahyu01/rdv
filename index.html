@@ -3,289 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RDV — Multi-Variant Dashboard</title>
+    <title>RDV — Riau Digital Venturer Portfolio</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
         :root {
-            --p-color: #00f2ff;
-            --s-color: #7000ff;
+            --accent: #00f2ff;
             --bg: #030712;
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
             background-color: var(--bg);
             color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- Background Effects --- */
-        .orb {
+        .mesh-bg {
             position: fixed;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
-            z-index: -1; border-radius: 50%;
-        }
-
-        /* --- Custom Navbar --- */
-        .rdv-nav {
-            backdrop-filter: blur(15px);
-            background: rgba(3, 7, 18, 0.8);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 0;
-        }
-
-        /* --- Section Heading --- */
-        .section-tag {
-            font-family: 'Space Grotesk', sans-serif;
-            color: var(--p-color);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        /* --- Variant Card --- */
-        .variant-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 15px;
-            height: 100%;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .variant-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--p-color);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.1);
-        }
-
-        .preview-box {
-            width: 100%;
-            height: 220px;
-            border-radius: 18px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .preview-box img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: 0.5s;
-        }
-
-        .variant-card:hover .preview-box img {
-            transform: scale(1.1);
-        }
-
-        .overlay-link {
-            position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 242, 255, 0.2);
-            backdrop-filter: blur(5px);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: 0.3s;
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, transparent 70%);
+            z-index: -1;
         }
 
-        .variant-card:hover .overlay-link {
-            opacity: 1;
+        #glow {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+            position: fixed; pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
         }
 
-        .v-badge {
-            background: var(--s-color);
-            font-size: 10px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            display: inline-block;
+        /* --- Project Card Bento --- */
+        .project-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: 0.5s;
+            height: 100%;
+            position: relative;
         }
 
-        /* --- Category Title --- */
-        .cat-title {
-            border-left: 4px solid var(--p-color);
-            padding-left: 15px;
-            margin-bottom: 30px;
-            font-family: 'Space Grotesk', sans-serif;
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
         }
 
-        /* --- Footer --- */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 60px 0;
-            margin-top: 100px;
-            background: rgba(0,0,0,0.3);
+        .card-img-wrapper {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .btn-launch {
-            background: #ffffff;
+        .card-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.5s; opacity: 0.6;
+        }
+
+        .project-card:hover img { opacity: 1; transform: scale(1.05); }
+
+        .btn-explore {
+            background: var(--accent);
             color: #000;
-            border-radius: 10px;
-            padding: 10px 20px;
             font-weight: 700;
+            padding: 12px 25px;
+            border-radius: 12px;
             text-decoration: none;
+            display: inline-block;
             transition: 0.3s;
         }
 
-        .btn-launch:hover {
-            background: var(--p-color);
-            transform: scale(1.1);
+        .btn-explore:hover { background: #fff; box-shadow: 0 0 20px var(--accent); }
+
+        .tech-tag {
+            font-size: 10px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 100px;
+            margin-right: 5px;
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
 
-    <div class="orb" style="top: -100px; right: -100px;"></div>
-    <div class="orb" style="bottom: -100px; left: -100px; background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);"></div>
+    <div class="mesh-bg"></div>
+    <div id="glow"></div>
 
     <!-- Nav -->
-    <nav class="navbar navbar-expand-lg rdv-nav fixed-top">
-        <div class="container">
-            <a class="navbar-brand text-white fw-bold fs-4" href="#">RDV<span style="color:var(--p-color)">LABS</span></a>
-            <div class="d-flex align-items-center">
-                <span class="badge bg-dark border border-secondary text-secondary me-2 d-none d-md-block">Env: Production</span>
-                <a href="https://wa.me/6282285002564" class="btn btn-outline-light btn-sm rounded-pill px-4">Contact Dev</a>
-            </div>
-        </div>
+    <nav class="navbar navbar-expand-lg fixed-top px-4">
+        <a class="navbar-brand text-white fw-bold" href="#">RDV<span style="color:var(--accent)">.</span></a>
     </nav>
 
-    <!-- Header -->
-    <section class="container" style="padding-top: 150px; margin-bottom: 80px;">
-        <div class="row align-items-center">
-            <div class="col-lg-7" data-aos="fade-right">
-                <span class="section-tag mb-3 d-block">Digital Product Staging</span>
-                <h1 class="display-4 fw-800 mb-4">Project <span style="color: var(--p-color)">Variant</span> Explorer.</h1>
-                <p class="text-white-50 lead">Selamat datang di hub preview RDV. Di sini kamu bisa meninjau berbagai iterasi desain untuk <b>Dry24</b> dan proyek inovasi kami lainnya secara real-time.</p>
+    <!-- Hero -->
+    <section class="container text-center" style="padding: 150px 0 80px;">
+        <h1 class="display-2 fw-bold mb-4" style="font-family: 'Space Grotesk';">RDV Exhibition <span class="text-accent">Hub</span></h1>
+        <p class="text-white-50 mx-auto" style="max-width: 600px;">Gudang inovasi digital dari CV. Riau Digital Venturer. Pilih produk kami untuk melihat detail dan variasi sistem yang dikembangkan.</p>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="container py-5">
+        <div class="row g-4">
+            
+            <!-- PRODUK UTAMA: DRY24 -->
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="project-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://dry24.id/chain/assets/images/slider-dec.png" alt="Dry24">
+                    </div>
+                    <div class="p-4">
+                        <div class="mb-3">
+                            <span class="tech-tag">LARAVEL</span>
+                            <span class="tech-tag">SAAS</span>
+                            <span class="tech-tag">MULTI-UI</span>
+                        </div>
+                        <h2 class="fw-bold">Dry24 Laundry Ecosystem</h2>
+                        <p class="text-white-50 mb-4">Sistem manajemen laundry paling komprehensif. Kami mengembangkan beberapa variasi tampilan untuk kebutuhan user experience yang berbeda.</p>
+                        
+                        <!-- LINK MENUJU HALAMAN PILIH VARIAN -->
+                        <a href="dry24-lab.html" class="btn-explore">Pilih Variasi Tampilan <i class="fas fa-flask ms-2"></i></a>
+                    </div>
+                </div>
             </div>
+
+            <!-- PROYEK LAIN -->
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="project-card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2340&auto=format&fit=crop" alt="Warehouse">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="fw-bold">Warehouse System</h4>
+                        <p class="text-white-50 small">Sistem manajemen stok cerdas berskala enterprise.</p>
+                        <a href="#" class="btn-explore py-2 px-3 small">Coming Soon</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- MAIN CONTENT -->
-    <main class="container">
-        
-        <!-- SECTION 1: DRY24 VARIANTS -->
-        <div class="mb-5" data-aos="fade-up">
-            <div class="cat-title">
-                <h3 class="fw-bold mb-1">Dry24 Evolution</h3>
-                <p class="text-secondary small">Eksperimen antarmuka untuk sistem manajemen laundry.</p>
-            </div>
-            
-            <div class="row g-4">
-                <!-- Variant 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="variant-card">
-                        <div class="preview-box">
-                            <div class="overlay-link">
-                                <a href="index1.html" class="btn-launch">Open Version 1</a>
-                            </div>
-                            <img src="https://dry24.id/chain/assets/images/slider-dec.png" alt="Variant 1">
-                        </div>
-                        <span class="v-badge">VARIANT 01</span>
-                        <h5 class="fw-bold">Dry24 - Classic Modern</h5>
-                        <p class="text-secondary small">Tampilan bersih dengan gradien standar dan fokus pada kemudahan navigasi bagi pengguna baru.</p>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-secondary opacity-50 small" style="font-size: 9px;">BOOTSTRAP</span>
-                            <span class="badge bg-secondary opacity-50 small" style="font-size: 9px;">LIGHT THEME</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Variant 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="variant-card" style="border-color: var(--s-color);">
-                        <div class="preview-box">
-                            <div class="overlay-link" style="background: rgba(112, 0, 255, 0.2);">
-                                <a href="index2.html" class="btn-launch">Open Version 2</a>
-                            </div>
-                            <img src="https://dry24.id/chain/assets/images/slider-dec.png" alt="Variant 2">
-                        </div>
-                        <span class="v-badge" style="background: var(--p-color); color: #000;">VARIANT 02</span>
-                        <h5 class="fw-bold">Dry24 - Futuristic Dark</h5>
-                        <p class="text-secondary small">Eksperimen Dark Mode dengan Glassmorphism dan animasi tingkat lanjut untuk kesan premium.</p>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-secondary opacity-50 small" style="font-size: 9px;">SAAS TREND</span>
-                            <span class="badge bg-secondary opacity-50 small" style="font-size: 9px;">DARK THEME</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Variant 3 Placeholder -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="variant-card" style="opacity: 0.5; border-style: dashed;">
-                        <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5">
-                            <i class="fas fa-flask fa-3x mb-3 text-secondary"></i>
-                            <h5 class="text-secondary">Next Variant</h5>
-                            <p class="small text-secondary text-center">Dalam tahap perancangan wireframe.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 2: OTHER PROJECTS -->
-        <div class="pt-5" data-aos="fade-up">
-            <div class="cat-title">
-                <h3 class="fw-bold mb-1">Other RDV Ventures</h3>
-                <p class="text-secondary small">Proyek teknologi lainnya dikembangkan oleh tim kami.</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="variant-card">
-                        <div class="preview-box" style="height: 150px;">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2340&auto=format&fit=crop" alt="Other">
-                        </div>
-                        <h5 class="fw-bold">Warehouse Management</h5>
-                        <p class="text-secondary small">Sistem inventori cerdas untuk manajemen stok yang lebih presisi.</p>
-                        <a href="#" class="text-decoration-none text-p-color fw-bold small">Explore Project <i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="variant-card">
-                        <div class="preview-box" style="height: 150px;">
-                            <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2320&auto=format&fit=crop" alt="Other">
-                        </div>
-                        <h5 class="fw-bold">Smart City Dashboard</h5>
-                        <p class="text-secondary small">Visualisasi data untuk monitoring infrastruktur kota digital.</p>
-                        <a href="#" class="text-decoration-none text-p-color fw-bold small">Explore Project <i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center">
-        <div class="container">
-            <h2 class="fw-bold mb-4">RDV<span style="color:var(--p-color)">.</span></h2>
-            <p class="text-white-50 mb-4 mx-auto" style="max-width: 500px;">Mendorong batas inovasi digital dari Riau untuk Indonesia. Semua varian di atas adalah kekayaan intelektual RDV.</p>
-            <div class="d-flex justify-content-center gap-4 mb-5">
-                <a href="#" class="text-white-50"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-white-50"><i class="fab fa-linkedin fa-lg"></i></a>
-                <a href="#" class="text-white-50"><i class="fab fa-github fa-lg"></i></a>
-            </div>
-            <p class="small text-secondary">© 2024 CV. Riau Digital Venturer. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        AOS.init();
+        const glow = document.getElementById('glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
     </script>
 </body>
 </html>
