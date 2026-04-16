@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SakuOnline — Finansial UMKM Digital</title>
+    
+    <!-- Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #10b981; /* Emerald Green - Warna Uang & Keberuntungan */
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: var(--dark);
+            margin-bottom: 80px; /* Space for mobile nav */
+        }
+
+        /* --- UI Components --- */
+        .app-header {
+            background: var(--dark);
+            color: white;
+            padding: 25px 20px 60px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .card-wallet {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: -40px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            border: none;
+        }
+
+        .nav-bottom {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .list-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #f1f5f9;
+        }
+
+        .badge-income { background: rgba(16, 185, 129, 0.1); color: #059669; }
+        .badge-expense { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+
+        /* QRIS Simulation */
+        #qris-area img {
+            width: 200px;
+            border: 10px solid white;
+            border-radius: 10px;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="app-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <small class="opacity-75">Selamat Datang,</small>
+                <h5 class="fw-bold mb-0">Merchant RDV Labs</h5>
+            </div>
+            <div class="rounded-circle bg-white bg-opacity-10 p-2">
+                <i class="fas fa-store"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Card -->
+    <div class="container">
+        <div class="card card-wallet">
+            <small class="opacity-75">Total Saldo Saku</small>
+            <h2 class="fw-800 mb-0" id="total-balance">Rp 0</h2>
+            <hr class="opacity-25">
+            <div class="row text-center">
+                <div class="col-6 border-end border-white border-opacity-25">
+                    <small class="d-block opacity-75">Pemasukan</small>
+                    <span class="fw-bold" id="total-income">Rp 0</span>
+                </div>
+                <div class="col-6">
+                    <small class="d-block opacity-75">Pengeluaran</small>
+                    <span class="fw-bold" id="total-expense">Rp 0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container mt-4 mb-5">
+        
+        <!-- PAGE 1: TRANSAKSI (DASHBOARD) -->
+        <div id="page-dashboard" class="page active">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0">Transaksi Terakhir</h6>
+                <button class="btn btn-sm btn-outline-success rounded-pill" onclick="showModal('modalTransaksi')">+ Tambah</button>
+            </div>
+            <div id="transaction-list">
+                <!-- Data dari JS -->
+            </div>
+        </div>
+
+        <!-- PAGE 2: PRODUK & STOK -->
+        <div id="page-produk" class="page">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0">Manajemen Stok</h6>
+                <button class="btn btn-sm btn-success rounded-pill" onclick="showModal('modalProduk')">+ Barang</button>
+            </div>
+            <div id="product-list" class="row g-2">
+                <!-- Data dari JS -->
+            </div>
+        </div>
+
+        <!-- PAGE 3: HUTANG/PIUTANG -->
+        <div id="page-hutang" class="page">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0">Catatan Piutang Pelanggan</h6>
+                <button class="btn btn-sm btn-danger rounded-pill" onclick="showModal('modalHutang')">+ Catat</button>
+            </div>
+            <div id="debt-list">
+                <!-- Data dari JS -->
+            </div>
+        </div>
+
+        <!-- PAGE 4: BAYAR (QRIS) -->
+        <div id="page-qris" class="page text-center">
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <h6 class="fw-bold mb-3">Terima Pembayaran QRIS</h6>
+                <div class="mb-3">
+                    <input type="number" id="input-qris-amount" class="form-control form-control-lg text-center fw-bold" placeholder="Masukkan Nominal">
+                </div>
+                <button class="btn btn-primary-custom w-100 mb-4" onclick="generateQRIS()">Buat Kode QRIS</button>
+                <div id="qris-area" class="d-none">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SakuOnlineID" alt="QRIS">
+                    <p class="mt-3 text-secondary small">Tunjukkan QRIS ini pada pelanggan Anda.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="nav-bottom">
+        <a href="javascript:void(0)" class="nav-item active" onclick="switchPage('dashboard', this)">
+            <i class="fas fa-home"></i> Beranda
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('produk', this)">
+            <i class="fas fa-box"></i> Stok
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('qris', this)">
+            <i class="fas fa-qrcode"></i> Bayar
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('hutang', this)">
+            <i class="fas fa-hand-holding-usd"></i> Hutang
+        </a>
+    </div>
+
+    <!-- Modal Tambah Transaksi -->
+    <div class="modal fade" id="modalTransaksi" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold mb-3">Catat Transaksi</h5>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Keterangan</label>
+                        <input type="text" id="t-desc" class="form-control" placeholder="Contoh: Jual Kopi">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Nominal (Rp)</label>
+                        <input type="number" id="t-amount" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Jenis</label>
+                        <select id="t-type" class="form-select">
+                            <option value="pemasukan">Pemasukan</option>
+                            <option value="pengeluaran">Pengeluaran</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary-custom w-100" onclick="saveTransaction()">Simpan Transaksi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Produk -->
+    <div class="modal fade" id="modalProduk" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold mb-3">Tambah Stok Barang</h5>
+                    <div class="mb-3">
+                        <input type="text" id="p-name" class="form-control" placeholder="Nama Barang">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" id="p-stock" class="form-control" placeholder="Jumlah Stok">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" id="p-price" class="form-control" placeholder="Harga Jual">
+                    </div>
+                    <button class="btn btn-primary-custom w-100" onclick="saveProduct()">Simpan Produk</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Database Sederhana dengan LocalStorage
+        let transactions = JSON.parse(localStorage.getItem('sakun_transactions')) || [];
+        let products = JSON.parse(localStorage.getItem('sakun_products')) || [];
+        let debts = JSON.parse(localStorage.getItem('sakun_debts')) || [];
+
+        const modalTransaksi = new bootstrap.Modal(document.getElementById('modalTransaksi'));
+        const modalProduk = new bootstrap.Modal(document.getElementById('modalProduk'));
+
+        function showModal(id) {
+            if(id === 'modalTransaksi') modalTransaksi.show();
+            if(id === 'modalProduk') modalProduk.show();
+        }
+
+        function formatRupiah(num) {
+            return "Rp " + Number(num).toLocaleString('id-ID');
+        }
+
+        // --- Core Logic ---
+        function updateStats() {
+            let income = transactions.filter(t => t.type === 'pemasukan').reduce((a, b) => a + Number(b.amount), 0);
+            let expense = transactions.filter(t => t.type === 'pengeluaran').reduce((a, b) => a + Number(b.amount), 0);
+            let balance = income - expense;
+
+            document.getElementById('total-balance').innerText = formatRupiah(balance);
+            document.getElementById('total-income').innerText = formatRupiah(income);
+            document.getElementById('total-expense').innerText = formatRupiah(expense);
+        }
+
+        function saveTransaction() {
+            const desc = document.getElementById('t-desc').value;
+            const amount = document.getElementById('t-amount').value;
+            const type = document.getElementById('t-type').value;
+
+            if(!desc || !amount) return alert("Isi data lengkap!");
+
+            transactions.unshift({ desc, amount, type, date: new Date().toLocaleString() });
+            localStorage.setItem('sakun_transactions', JSON.stringify(transactions));
+            
+            modalTransaksi.hide();
+            renderTransactions();
+            updateStats();
+        }
+
+        function renderTransactions() {
+            const list = document.getElementById('transaction-list');
+            list.innerHTML = transactions.map(t => `
+                <div class="list-item shadow-sm">
+                    <div>
+                        <div class="fw-bold">${t.desc}</div>
+                        <small class="text-secondary" style="font-size:10px">${t.date}</small>
+                    </div>
+                    <div class="fw-bold ${t.type === 'pemasukan' ? 'text-success' : 'text-danger'}">
+                        ${t.type === 'pemasukan' ? '+' : '-'} ${formatRupiah(t.amount)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function saveProduct() {
+            const name = document.getElementById('p-name').value;
+            const stock = document.getElementById('p-stock').value;
+            const price = document.getElementById('p-price').value;
+
+            products.unshift({ name, stock, price });
+            localStorage.setItem('sakun_products', JSON.stringify(products));
+            modalProduk.hide();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = products.map(p => `
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm p-3 rounded-4">
+                        <small class="text-secondary d-block">Stok: ${p.stock}</small>
+                        <div class="fw-bold text-truncate">${p.name}</div>
+                        <div class="text-primary fw-bold small">${formatRupiah(p.price)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchPage(pageId, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById('page-' + pageId).classList.add('active');
+            el.classList.add('active');
+        }
+
+        function generateQRIS() {
+            const amount = document.getElementById('input-qris-amount').value;
+            if(!amount) return alert("Masukkan nominal!");
+            
+            // Simulasi loading QRIS
+            document.getElementById('qris-area').classList.remove('d-none');
+        }
+
+        // Initial Load
+        renderTransactions();
+        renderProducts();
+        updateStats();
+    </script>
+</body>
+</html>
