@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDV Portfolio — Riau Digital Venturer Exhibition</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        :root {
+            --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.5);
+            --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --font-main: 'Inter', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+        }
+
+        /* --- Background Animation --- */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        /* --- Custom Cursor (Optional but cool) --- */
+        .glow-point {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.03) 0%, transparent 70%);
+            position: fixed; pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(3, 7, 18, 0.7);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px 0;
+        }
+
+        .navbar-brand {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: -1px;
+            font-size: 1.5rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            padding: 160px 0 100px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, #fff 50%, rgba(255,255,255,0.2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* --- Portfolio Bento Grid --- */
+        .project-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 0;
+            overflow: hidden;
+            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            height: 450px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+        }
+
+        .project-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            transition: 0.6s;
+        }
+
+        .project-card:hover .project-img {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 40px;
+            background: linear-gradient(to top, var(--bg) 20%, transparent);
+        }
+
+        .tech-stack span {
+            font-size: 11px;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-right: 8px;
+            border: 1px solid var(--glass-border);
+            color: var(--accent);
+        }
+
+        /* --- Category Filter --- */
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            padding: 10px 25px;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active {
+            color: var(--accent);
+            position: relative;
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 25%; width: 50%; height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 40px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 30px;
+            padding: 60px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .btn-futuristic {
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 700;
+            padding: 15px 40px;
+            border-radius: 100px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-futuristic:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: scale(1.05);
+            color: var(--bg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.5rem; }
+            .cta-box { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+    <div class="glow-point" id="glow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">RDV<span style="color:var(--accent)">.</span></a>
+            <div class="ms-auto">
+                <a href="https://wa.me/6282285002564" class="btn btn-outline-light rounded-pill px-4 btn-sm">Let's Talk</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <span class="tagline" data-aos="fade-down">Innovative Digital Lab</span>
+            <h1 class="hero-title" data-aos="fade-up">Architecting <br> Digital Future.</h1>
+            <p class="text-secondary mx-auto mb-5" style="max-width: 600px;" data-aos="fade-up" data-aos-delay="100">
+                CV. Riau Digital Venturer (RDV) adalah inkubator teknologi yang membangun solusi digital berskala tinggi, dari ekosistem laundry hingga sistem manajemen perusahaan modern.
+            </p>
+            
+            <!-- Stats -->
+            <div class="row g-4 justify-content-center mt-5" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-4 col-md-2">
+                    <h3 class="fw-bold mb-0">50+</h3>
+                    <small class="text-secondary">Projects</small>
+                </div>
+                <div class="col-4 col-md-2">
+                    <h3 class="fw-bold mb-0">20+</h3>
+                    <small class="text-secondary">Partners</small>
+                </div>
+                <div class="col-4 col-md-2">
+                    <h3 class="fw-bold mb-0">99%</h3>
+                    <small class="text-secondary">Uptime</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Gallery -->
+    <section class="py-5" id="work">
+        <div class="container">
+            <div class="d-flex justify-content-center flex-wrap gap-2 mb-5" data-aos="fade-up">
+                <button class="filter-btn active">All Assets</button>
+                <button class="filter-btn">SaaS</button>
+                <button class="filter-btn">E-Gov</button>
+                <button class="filter-btn">Enterprise</button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Dry24 -->
+                <div class="col-md-7" data-aos="fade-up">
+                    <div class="project-card">
+                        <img src="https://dry24.id/chain/assets/images/slider-dec.png" class="project-img" alt="Dry24">
+                        <div class="project-content">
+                            <div class="tech-stack mb-3">
+                                <span>Laravel</span><span>Tailwind</span><span>Cloud WA</span>
+                            </div>
+                            <h2 class="fw-bold">Dry24 Ecosystem</h2>
+                            <p class="text-white-50">SaaS manajemen laundry nomor #1 di Indonesia dengan fitur otomasi WhatsApp.</p>
+                            <a href="https://dry24.id" target="_blank" class="text-accent text-decoration-none fw-bold">View System <i class="fas fa-external-link-alt ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simpro -->
+                <div class="col-md-5" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" class="project-img" alt="Inventory">
+                        <div class="project-content">
+                            <div class="tech-stack mb-3">
+                                <span>PHP Native</span><span>MySQL</span>
+                            </div>
+                            <h2 class="fw-bold">Warehouse v1.0</h2>
+                            <p class="text-white-50">Sistem manajemen gudang presisi tinggi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Projects (Bento style) -->
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="project-card" style="height: 350px;">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2340&auto=format&fit=crop" class="project-img">
+                        <div class="project-content">
+                            <h4 class="fw-bold">Analytics RDV</h4>
+                            <p class="text-white-50 small">Dashboard data visualisasi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-card" style="height: 350px;">
+                        <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2320&auto=format&fit=crop" class="project-img">
+                        <div class="project-content">
+                            <h4 class="fw-bold">Smart IoT Gateway</h4>
+                            <p class="text-white-50 small">Hardware-software integration.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-card" style="height: 350px;">
+                        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2340&auto=format&fit=crop" class="project-img">
+                        <div class="project-content">
+                            <h4 class="fw-bold">E-Commerce Custom</h4>
+                            <p class="text-white-50 small">High performance online store.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-100 mt-5">
+        <div class="container">
+            <div class="cta-box" data-aos="zoom-in">
+                <h2 class="display-5 fw-bold mb-4">Mulai Transformasi Digital Bersama RDV</h2>
+                <p class="text-white-50 mb-5 fs-5">Kami tidak hanya membuat website, kami membangun aset masa depan perusahaan Anda.</p>
+                <a href="mailto:management@dry24.id" class="btn-futuristic">Hubungi Tim Developer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h3 class="fw-bold">RDV<span class="text-accent">.</span></h3>
+                    <p class="text-white-50">PT / CV. Riau Digital Venturer <br> Pekanbaru, Riau, Indonesia.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end text-white-50">
+                    <p>© 2024 RDV Indonesia. All rights reserved.</p>
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3 fs-5 text-white">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Interactive Glow Point
+        const glow = document.getElementById('glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // Simple Filter Logic (Visual only)
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                buttons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
