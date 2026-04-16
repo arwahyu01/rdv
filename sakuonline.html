@@ -3,363 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SakuOnline — Finansial UMKM Digital</title>
+    <title>SakuOnline.id — Business OS UMKM Indonesia</title>
     
     <!-- Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
-            --primary: #10b981; /* Emerald Green - Warna Uang & Keberuntungan */
+            --primary: #059669;
+            --primary-soft: #ecfdf5;
             --dark: #0f172a;
-            --glass: rgba(255, 255, 255, 0.05);
+            --sidebar-width: 260px;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             color: var(--dark);
-            margin-bottom: 80px; /* Space for mobile nav */
+            overflow-x: hidden;
         }
 
-        /* --- UI Components --- */
-        .app-header {
+        /* --- AUTH STYLE --- */
+        #auth-container {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- LAYOUT RESPONSIVE --- */
+        .sidebar {
+            width: var(--sidebar-width);
             background: var(--dark);
-            color: white;
-            padding: 25px 20px 60px;
-            border-radius: 0 0 30px 30px;
-        }
-
-        .card-wallet {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: -40px;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-            border: none;
-        }
-
-        .nav-bottom {
+            height: 100vh;
             position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-
-        .btn-primary-custom {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px;
-            font-weight: 700;
+            left: 0; top: 0;
+            padding: 20px;
+            z-index: 1001;
             transition: 0.3s;
         }
 
-        .list-item {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #f1f5f9;
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            transition: 0.3s;
         }
 
-        .badge-income { background: rgba(16, 185, 129, 0.1); color: #059669; }
-        .badge-expense { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 10px 0;
+        }
 
-        /* QRIS Simulation */
-        #qris-area img {
-            width: 200px;
-            border: 10px solid white;
-            border-radius: 10px;
+        /* --- CARDS & UI --- */
+        .stat-card {
+            background: white; border-radius: 20px; padding: 25px;
+            border: none; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+
+        .btn-primary-custom {
+            background: var(--primary); border: none; color: white;
+            padding: 12px 24px; border-radius: 12px; font-weight: 700;
+        }
+
+        .marketing-badge {
+            background: var(--primary-soft); color: var(--primary);
+            font-weight: 700; padding: 5px 15px; border-radius: 100px; font-size: 12px;
+        }
+
+        /* Mobile View (Max 768px) */
+        @media (max-width: 768px) {
+            .sidebar { left: -100%; }
+            .main-content { margin-left: 0; padding: 20px; padding-bottom: 100px; }
+            .mobile-nav { display: flex; justify-content: space-around; }
+            .desktop-only { display: none; }
         }
 
         .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; animation: fadeIn 0.4s ease; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div class="app-header">
-        <div class="container d-flex justify-content-between align-items-center">
+    <!-- DUMMY LOGIN SCREEN -->
+    <div id="auth-container">
+        <div class="card p-4 shadow-lg border-0" style="width: 350px; border-radius: 25px;">
+            <div class="text-center mb-4">
+                <h3 class="fw-800 text-success">Saku<span class="text-dark">Online</span></h3>
+                <p class="text-muted small">Kelola UMKM Jauh Lebih Mudah</p>
+            </div>
+            <div class="mb-3">
+                <label class="small fw-bold">Email / Username</label>
+                <input type="text" id="login-user" class="form-control rounded-pill" value="rdv_labs">
+            </div>
+            <div class="mb-4">
+                <label class="small fw-bold">Password</label>
+                <input type="password" id="login-pass" class="form-control rounded-pill" value="123456">
+            </div>
+            <button class="btn btn-primary-custom w-100" onclick="handleLogin()">Masuk Ke Bisnis</button>
+            <div class="text-center mt-3">
+                <small class="text-muted">Lupa password? Hubungi Admin</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR (DESKTOP) -->
+    <div class="sidebar desktop-only" id="sidebar">
+        <h4 class="text-white fw-bold mb-5">Saku<span class="text-success">Online</span></h4>
+        <nav class="nav flex-column gap-3">
+            <a href="#" class="nav-link text-white active-link" onclick="switchPage('dashboard')"><i class="fas fa-chart-pie me-2"></i> Dashboard</a>
+            <a href="#" class="nav-link text-white" onclick="switchPage('pos')"><i class="fas fa-cash-register me-2"></i> Kasir (POS)</a>
+            <a href="#" class="nav-link text-white" onclick="switchPage('produk')"><i class="fas fa-boxes me-2"></i> Inventory</a>
+            <a href="#" class="nav-link text-white" onclick="switchPage('marketing')"><i class="fas fa-bullhorn me-2"></i> Marketing Suite</a>
+            <a href="#" class="nav-link text-white" onclick="switchPage('laporan')"><i class="fas fa-file-invoice me-2"></i> Laporan</a>
+            <hr class="text-secondary">
+            <a href="#" class="nav-link text-danger" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+        </nav>
+    </div>
+
+    <!-- MOBILE NAVIGATION -->
+    <div class="mobile-nav">
+        <a href="#" class="nav-link text-center text-success" onclick="switchPage('dashboard')"><i class="fas fa-home d-block"></i> <small>Home</small></a>
+        <a href="#" class="nav-link text-center text-secondary" onclick="switchPage('pos')"><i class="fas fa-qrcode d-block"></i> <small>Kasir</small></a>
+        <a href="#" class="nav-link text-center text-secondary" onclick="switchPage('marketing')"><i class="fas fa-bolt d-block"></i> <small>Promo</small></a>
+        <a href="#" class="nav-link text-center text-secondary" onclick="switchPage('produk')"><i class="fas fa-box d-block"></i> <small>Stok</small></a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <small class="opacity-75">Selamat Datang,</small>
-                <h5 class="fw-bold mb-0">Merchant RDV Labs</h5>
+                <h4 class="fw-bold mb-0">Halo, Merchant RDV!</h4>
+                <p class="text-muted small">Cek performa bisnis hari ini</p>
             </div>
-            <div class="rounded-circle bg-white bg-opacity-10 p-2">
-                <i class="fas fa-store"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wallet Card -->
-    <div class="container">
-        <div class="card card-wallet">
-            <small class="opacity-75">Total Saldo Saku</small>
-            <h2 class="fw-800 mb-0" id="total-balance">Rp 0</h2>
-            <hr class="opacity-25">
-            <div class="row text-center">
-                <div class="col-6 border-end border-white border-opacity-25">
-                    <small class="d-block opacity-75">Pemasukan</small>
-                    <span class="fw-bold" id="total-income">Rp 0</span>
-                </div>
-                <div class="col-6">
-                    <small class="d-block opacity-75">Pengeluaran</small>
-                    <span class="fw-bold" id="total-expense">Rp 0</span>
-                </div>
+            <div class="desktop-only">
+                <span class="marketing-badge"><i class="fas fa-clock"></i> Langganan Premium: Aktif</span>
             </div>
         </div>
-    </div>
 
-    <!-- Main Content Area -->
-    <div class="container mt-4 mb-5">
-        
-        <!-- PAGE 1: TRANSAKSI (DASHBOARD) -->
+        <!-- PAGE: DASHBOARD -->
         <div id="page-dashboard" class="page active">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0">Transaksi Terakhir</h6>
-                <button class="btn btn-sm btn-outline-success rounded-pill" onclick="showModal('modalTransaksi')">+ Tambah</button>
-            </div>
-            <div id="transaction-list">
-                <!-- Data dari JS -->
-            </div>
-        </div>
-
-        <!-- PAGE 2: PRODUK & STOK -->
-        <div id="page-produk" class="page">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0">Manajemen Stok</h6>
-                <button class="btn btn-sm btn-success rounded-pill" onclick="showModal('modalProduk')">+ Barang</button>
-            </div>
-            <div id="product-list" class="row g-2">
-                <!-- Data dari JS -->
-            </div>
-        </div>
-
-        <!-- PAGE 3: HUTANG/PIUTANG -->
-        <div id="page-hutang" class="page">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0">Catatan Piutang Pelanggan</h6>
-                <button class="btn btn-sm btn-danger rounded-pill" onclick="showModal('modalHutang')">+ Catat</button>
-            </div>
-            <div id="debt-list">
-                <!-- Data dari JS -->
-            </div>
-        </div>
-
-        <!-- PAGE 4: BAYAR (QRIS) -->
-        <div id="page-qris" class="page text-center">
-            <div class="card border-0 shadow-sm p-4 rounded-4">
-                <h6 class="fw-bold mb-3">Terima Pembayaran QRIS</h6>
-                <div class="mb-3">
-                    <input type="number" id="input-qris-amount" class="form-control form-control-lg text-center fw-bold" placeholder="Masukkan Nominal">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <small class="text-muted">Pemasukan Hari Ini</small>
+                        <h3 class="fw-bold text-success" id="stat-income">Rp 0</h3>
+                        <div class="small text-muted">+12% dari kemarin</div>
+                    </div>
                 </div>
-                <button class="btn btn-primary-custom w-100 mb-4" onclick="generateQRIS()">Buat Kode QRIS</button>
-                <div id="qris-area" class="d-none">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SakuOnlineID" alt="QRIS">
-                    <p class="mt-3 text-secondary small">Tunjukkan QRIS ini pada pelanggan Anda.</p>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <small class="text-muted">Produk Terjual</small>
+                        <h3 class="fw-bold" id="stat-sold">0 Pcs</h3>
+                        <div class="small text-muted">Ayo tingkatkan lagi!</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <small class="text-muted">Total Piutang</small>
+                        <h3 class="fw-bold text-danger" id="stat-debt">Rp 0</h3>
+                        <div class="small text-muted">Belum tertagih</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="stat-card">
+                        <h6 class="fw-bold mb-4">Grafik Penjualan 7 Hari Terakhir</h6>
+                        <canvas id="salesChart" height="150"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="stat-card">
+                        <h6 class="fw-bold mb-3">Produk Terlaris</h6>
+                        <div id="best-seller-list">
+                            <!-- List JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: MARKETING SUITE -->
+        <div id="page-marketing" class="page">
+            <h5 class="fw-bold mb-4">Marketing & Promotion Suite</h5>
+            <div class="row g-4">
+                <!-- Broadcast -->
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold mb-0">Web WhatsApp Broadcast</h6>
+                            <span class="badge bg-success">Auto-Connect</span>
+                        </div>
+                        <p class="text-muted small">Kirim promo diskon ke seluruh database pelanggan dalam 1 klik.</p>
+                        <textarea id="bc-msg" class="form-control mb-3" rows="3" placeholder="Tulis pesan promosi..."></textarea>
+                        <button class="btn btn-primary-custom w-100" onclick="simulateBroadcast()">Kirim Pesan Blast</button>
+                    </div>
+                </div>
+                <!-- Iklan & Sosmed -->
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <h6 class="fw-bold mb-3">Jadwal Iklan & Posting Sosmed</h6>
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-sm">
+                                <thead>
+                                    <tr class="text-muted small">
+                                        <th>PLATFORM</th>
+                                        <th>JADWAL</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fab fa-instagram text-danger"></i> Instagram Feed</td>
+                                        <td>19:00 WIB</td>
+                                        <td><span class="text-warning">Menunggu</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fab fa-tiktok text-dark"></i> TikTok Video</td>
+                                        <td>Besok, 10:00</td>
+                                        <td><span class="text-muted">Scheduled</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-outline-success w-100 btn-sm">Buat Jadwal Baru</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: POS (KASIR) -->
+        <div id="page-pos" class="page text-center">
+            <div class="mx-auto" style="max-width: 500px;">
+                <div class="stat-card p-5">
+                    <h3 class="fw-bold mb-4">Kasir Saku</h3>
+                    <input type="number" id="pos-amount" class="form-control form-control-lg text-center mb-3" placeholder="Masukkan Nominal">
+                    <input type="text" id="pos-note" class="form-control mb-4" placeholder="Catatan (Opsional)">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-dark w-100 py-3" onclick="processPOS('Tunai')">Uang Tunai</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-success w-100 py-3" onclick="processPOS('QRIS')">QRIS / E-Wallet</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="nav-bottom">
-        <a href="javascript:void(0)" class="nav-item active" onclick="switchPage('dashboard', this)">
-            <i class="fas fa-home"></i> Beranda
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('produk', this)">
-            <i class="fas fa-box"></i> Stok
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('qris', this)">
-            <i class="fas fa-qrcode"></i> Bayar
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="switchPage('hutang', this)">
-            <i class="fas fa-hand-holding-usd"></i> Hutang
-        </a>
-    </div>
-
-    <!-- Modal Tambah Transaksi -->
-    <div class="modal fade" id="modalTransaksi" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 border-0">
-                <div class="modal-body p-4">
-                    <h5 class="fw-bold mb-3">Catat Transaksi</h5>
-                    <div class="mb-3">
-                        <label class="small fw-bold">Keterangan</label>
-                        <input type="text" id="t-desc" class="form-control" placeholder="Contoh: Jual Kopi">
-                    </div>
-                    <div class="mb-3">
-                        <label class="small fw-bold">Nominal (Rp)</label>
-                        <input type="number" id="t-amount" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="small fw-bold">Jenis</label>
-                        <select id="t-type" class="form-select">
-                            <option value="pemasukan">Pemasukan</option>
-                            <option value="pengeluaran">Pengeluaran</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary-custom w-100" onclick="saveTransaction()">Simpan Transaksi</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Tambah Produk -->
-    <div class="modal fade" id="modalProduk" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 border-0">
-                <div class="modal-body p-4">
-                    <h5 class="fw-bold mb-3">Tambah Stok Barang</h5>
-                    <div class="mb-3">
-                        <input type="text" id="p-name" class="form-control" placeholder="Nama Barang">
-                    </div>
-                    <div class="mb-3">
-                        <input type="number" id="p-stock" class="form-control" placeholder="Jumlah Stok">
-                    </div>
-                    <div class="mb-3">
-                        <input type="number" id="p-price" class="form-control" placeholder="Harga Jual">
-                    </div>
-                    <button class="btn btn-primary-custom w-100" onclick="saveProduct()">Simpan Produk</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Database Sederhana dengan LocalStorage
-        let transactions = JSON.parse(localStorage.getItem('sakun_transactions')) || [];
-        let products = JSON.parse(localStorage.getItem('sakun_products')) || [];
-        let debts = JSON.parse(localStorage.getItem('sakun_debts')) || [];
+        // --- DATABASE LOCALSTORAGE ---
+        let db = {
+            transactions: JSON.parse(localStorage.getItem('sakun_trans')) || [],
+            products: JSON.parse(localStorage.getItem('sakun_prod')) || [],
+            marketing: JSON.parse(localStorage.getItem('sakun_market')) || []
+        };
 
-        const modalTransaksi = new bootstrap.Modal(document.getElementById('modalTransaksi'));
-        const modalProduk = new bootstrap.Modal(document.getElementById('modalProduk'));
-
-        function showModal(id) {
-            if(id === 'modalTransaksi') modalTransaksi.show();
-            if(id === 'modalProduk') modalProduk.show();
+        // --- AUTH LOGIC ---
+        function handleLogin() {
+            const btn = document.querySelector('#auth-container button');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menghubungkan...';
+            setTimeout(() => {
+                document.getElementById('auth-container').style.display = 'none';
+                initDashboard();
+            }, 1500);
         }
 
-        function formatRupiah(num) {
-            return "Rp " + Number(num).toLocaleString('id-ID');
+        function logout() {
+            location.reload();
         }
 
-        // --- Core Logic ---
-        function updateStats() {
-            let income = transactions.filter(t => t.type === 'pemasukan').reduce((a, b) => a + Number(b.amount), 0);
-            let expense = transactions.filter(t => t.type === 'pengeluaran').reduce((a, b) => a + Number(b.amount), 0);
-            let balance = income - expense;
-
-            document.getElementById('total-balance').innerText = formatRupiah(balance);
-            document.getElementById('total-income').innerText = formatRupiah(income);
-            document.getElementById('total-expense').innerText = formatRupiah(expense);
-        }
-
-        function saveTransaction() {
-            const desc = document.getElementById('t-desc').value;
-            const amount = document.getElementById('t-amount').value;
-            const type = document.getElementById('t-type').value;
-
-            if(!desc || !amount) return alert("Isi data lengkap!");
-
-            transactions.unshift({ desc, amount, type, date: new Date().toLocaleString() });
-            localStorage.setItem('sakun_transactions', JSON.stringify(transactions));
-            
-            modalTransaksi.hide();
-            renderTransactions();
-            updateStats();
-        }
-
-        function renderTransactions() {
-            const list = document.getElementById('transaction-list');
-            list.innerHTML = transactions.map(t => `
-                <div class="list-item shadow-sm">
-                    <div>
-                        <div class="fw-bold">${t.desc}</div>
-                        <small class="text-secondary" style="font-size:10px">${t.date}</small>
-                    </div>
-                    <div class="fw-bold ${t.type === 'pemasukan' ? 'text-success' : 'text-danger'}">
-                        ${t.type === 'pemasukan' ? '+' : '-'} ${formatRupiah(t.amount)}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function saveProduct() {
-            const name = document.getElementById('p-name').value;
-            const stock = document.getElementById('p-stock').value;
-            const price = document.getElementById('p-price').value;
-
-            products.unshift({ name, stock, price });
-            localStorage.setItem('sakun_products', JSON.stringify(products));
-            modalProduk.hide();
-            renderProducts();
-        }
-
-        function renderProducts() {
-            const list = document.getElementById('product-list');
-            list.innerHTML = products.map(p => `
-                <div class="col-6">
-                    <div class="card border-0 shadow-sm p-3 rounded-4">
-                        <small class="text-secondary d-block">Stok: ${p.stock}</small>
-                        <div class="fw-bold text-truncate">${p.name}</div>
-                        <div class="text-primary fw-bold small">${formatRupiah(p.price)}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function switchPage(pageId, el) {
+        // --- NAVIGATION ---
+        function switchPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
             
-            document.getElementById('page-' + pageId).classList.add('active');
-            el.classList.add('active');
+            // Link Style
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('text-success', 'fw-bold'));
+            // Note: In real app, highlight based on target
         }
 
-        function generateQRIS() {
-            const amount = document.getElementById('input-qris-amount').value;
-            if(!amount) return alert("Masukkan nominal!");
+        // --- CORE OPERATIONAL ---
+        function processPOS(method) {
+            const amount = document.getElementById('pos-amount').value;
+            const note = document.getElementById('pos-note').value || "Penjualan Kasir";
             
-            // Simulasi loading QRIS
-            document.getElementById('qris-area').classList.remove('d-none');
+            if(!amount) return alert("Nominal harus diisi!");
+
+            db.transactions.unshift({
+                id: Date.now(),
+                amount: parseInt(amount),
+                note: note,
+                method: method,
+                date: new Date().toLocaleDateString('id-ID')
+            });
+
+            saveDB();
+            alert("Transaksi " + method + " Berhasil Disimpan!");
+            document.getElementById('pos-amount').value = '';
+            initDashboard();
+            switchPage('dashboard');
         }
 
-        // Initial Load
-        renderTransactions();
-        renderProducts();
-        updateStats();
+        function simulateBroadcast() {
+            const msg = document.getElementById('bc-msg').value;
+            if(!msg) return alert("Tulis pesan promosi!");
+            
+            alert("Sedang mengirim Broadcast ke 150 database pelanggan...");
+            setTimeout(() => alert("Broadcast Selesai! Tingkat klik (CTR) dipantau di menu Laporan."), 2000);
+        }
+
+        // --- ANALYTICS & UI ---
+        function initDashboard() {
+            const todayTrans = db.transactions.filter(t => t.date === new Date().toLocaleDateString('id-ID'));
+            const totalIncome = todayTrans.reduce((a, b) => a + b.amount, 0);
+
+            document.getElementById('stat-income').innerText = "Rp " + totalIncome.toLocaleString();
+            document.getElementById('stat-sold').innerText = todayTrans.length + " Trx";
+
+            renderChart();
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Omzet Penjualan (Ribuan)',
+                        data: [120, 190, 300, 250, 400, 550, 480],
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function saveDB() {
+            localStorage.setItem('sakun_trans', JSON.stringify(db.transactions));
+            localStorage.setItem('sakun_prod', JSON.stringify(db.products));
+        }
+
+        // Bootstrap Init
+        window.onload = () => {
+            // Jika ingin auto-login untuk demo:
+            // handleLogin(); 
+        };
     </script>
 </body>
 </html>
