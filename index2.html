@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dry24 — Revolusi Bisnis Laundry Modern</title>
+    
+    <!-- Core Assets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        :root {
+            --p-color: #6366f1;
+            --s-color: #0ea5e9;
+            --accent: #22c55e;
+            --bg-dark: #020617;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+
+        /* --- Glassmorphism Elements --- */
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            background: rgba(2, 6, 23, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* --- Typography --- */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, var(--p-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Hero Section --- */
+        .hero-area {
+            padding: 180px 0 100px;
+            background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+        }
+
+        .btn-glow {
+            background: var(--p-color);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.6);
+            color: white;
+        }
+
+        /* --- Bento Grid Features --- */
+        .bento-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            height: 100%;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--p-color);
+            transform: translateY(-5px);
+        }
+
+        .icon-circle {
+            width: 50px; height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--p-color);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; margin-bottom: 20px;
+        }
+
+        /* --- Pricing Section --- */
+        .pricing-grid {
+            border-radius: 32px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 40px;
+            transition: 0.4s;
+        }
+
+        .pricing-grid.featured {
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%);
+            border: 2px solid var(--p-color);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        /* --- Referral Section --- */
+        .referral-banner {
+            background: linear-gradient(90deg, #4f46e5 0%, #0ea5e9 100%);
+            border-radius: 30px;
+            padding: 60px;
+            margin-top: 100px;
+        }
+
+        /* --- Floating WhatsApp --- */
+        .wa-float {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: #22c55e;
+            color: white;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; z-index: 9999;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 991px) {
+            .pricing-grid.featured { transform: scale(1); margin: 20px 0; }
+            .hero-area { padding-top: 140px; text-align: center; }
+            .referral-banner { padding: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/6282285002564" class="wa-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg glass-nav fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                <img src="https://dry24.id/chain/assets/images/laundry.png" alt="Dry24" height="35">
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navDry">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navDry">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link text-white-50 px-3" href="#fitur">Fitur</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50 px-3" href="#harga">Harga</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50 px-3" href="#referral">Referral</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="https://dry24.id/login" class="btn btn-outline-light rounded-pill px-4 py-2">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://dry24.id/register" class="btn btn-primary rounded-pill px-4 py-2 bg-indigo border-0" style="background: var(--p-color)">Daftar Gratis</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <span class="badge rounded-pill mb-3 py-2 px-3" style="background: rgba(99, 102, 241, 0.1); color: var(--p-color); border: 1px solid var(--p-color)">
+                        ✨ Terpercaya oleh 180+ Outlet Laundry
+                    </span>
+                    <h1 class="display-3 fw-800 mb-4 text-gradient">Kelola Laundry Makin <br> Gampang & Otomatis.</h1>
+                    <p class="lead text-white-50 mb-5">Hentikan pembukuan manual yang berantakan. Gunakan sistem Dry24 untuk pantau transaksi, kirim nota WA otomatis, dan kelola cabang dari mana saja.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#harga" class="btn-glow">Coba Gratis 14 Hari</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.cleancloudapp.dry24.laundry" class="btn btn-dark border-secondary rounded-xl py-3 px-4">
+                            <i class="fab fa-google-play me-2"></i> Play Store
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="zoom-in">
+                    <img src="https://dry24.id/chain/assets/images/d-3.png" class="img-fluid" style="filter: drop-shadow(0 20px 50px rgba(99,102,241,0.3))">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-5" style="background: rgba(255,255,255,0.02)">
+        <div class="container">
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <h2 class="fw-bold text-indigo"><span class="counter" data-target="166">0</span>+</h2>
+                    <p class="text-white-50 mb-0">Mitra Terdaftar</p>
+                </div>
+                <div class="col-md-4">
+                    <h2 class="fw-bold text-indigo"><span class="counter" data-target="186">0</span>+</h2>
+                    <p class="text-white-50 mb-0">Toko Cabang</p>
+                </div>
+                <div class="col-md-4">
+                    <h2 class="fw-bold text-indigo"><span class="counter" data-target="76974">0</span>+</h2>
+                    <p class="text-white-50 mb-0">Total Transaksi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bento -->
+    <section id="fitur" class="py-100 mt-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold mb-3">Fitur <span class="text-p-color" style="color: var(--p-color)">Super Lengkap</span></h2>
+                <p class="text-white-50">Semua yang Anda butuhkan untuk mendominasi pasar laundry lokal.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="bento-card">
+                        <div class="icon-circle"><i class="fab fa-whatsapp"></i></div>
+                        <h4>Nota WA Otomatis</h4>
+                        <p class="text-white-50">Kirim status pengerjaan dan nota tagihan langsung ke nomor WhatsApp pelanggan tanpa input manual.</p>
+                    </div>
+                </div>
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bento-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <div class="icon-circle"><i class="fas fa-chart-line"></i></div>
+                                <h4>Laporan Keuangan Real-Time</h4>
+                                <p class="text-white-50">Pantau omzet harian, mingguan, hingga laba rugi secara otomatis tanpa perlu kalkulator.</p>
+                            </div>
+                            <div class="col-md-5">
+                                <i class="fas fa-file-invoice-dollar fa-5x opacity-10 float-end"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="bento-card">
+                        <div class="icon-circle"><i class="fas fa-store"></i></div>
+                        <h4>Multi Cabang</h4>
+                        <p class="text-white-50">Kontrol banyak outlet hanya dalam satu dashboard akun pemilik.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bento-card">
+                        <div class="icon-circle"><i class="fas fa-user-check"></i></div>
+                        <h4>Absensi Karyawan</h4>
+                        <p class="text-white-50">Pantau kedisiplinan kru laundry Anda dengan sistem absensi digital terintegrasi.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bento-card text-center">
+                        <div class="icon-circle mx-auto"><i class="fas fa-bullhorn"></i></div>
+                        <h4>WhatsApp Blast</h4>
+                        <p class="text-white-50">Kirim promo massal ke ribuan database pelanggan dalam satu klik.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="harga" class="py-100 mt-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Paket Harga <span style="color: var(--s-color)">Terjangkau</span></h2>
+                <p class="text-white-50">Pilih paket yang sesuai dengan skala bisnis Anda.</p>
+            </div>
+            <div class="row g-4 align-items-center justify-content-center">
+                <div class="col-lg-4" data-aos="fade-right">
+                    <div class="pricing-grid">
+                        <h4 class="mb-3">Standard</h4>
+                        <div class="d-flex align-items-end mb-4">
+                            <h2 class="mb-0 fw-bold">Rp 55k</h2>
+                            <span class="text-white-50 ms-2">/Bulan</span>
+                        </div>
+                        <ul class="list-unstyled mb-5">
+                            <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> Unlimited Transaksi</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> WA Notification</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-accent me-2"></i> Laporan Keuangan</li>
+                            <li class="mb-3 text-white-25"><i class="fas fa-times-circle me-2"></i> Absensi Pegawai</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-light w-100 py-3 rounded-pill">Pilih Paket</a>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="zoom-in">
+                    <div class="pricing-grid featured">
+                        <div class="badge bg-primary mb-3">REKOMENDASI</div>
+                        <h4 class="mb-3 text-white">Advanced</h4>
+                        <div class="d-flex align-items-end mb-4">
+                            <h2 class="mb-0 fw-bold text-white">Rp 85k</h2>
+                            <span class="text-white-50 ms-2">/Bulan</span>
+                        </div>
+                        <ul class="list-unstyled mb-5">
+                            <li class="mb-3 text-white"><i class="fas fa-check-circle text-primary me-2"></i> Semua Fitur Standard</li>
+                            <li class="mb-3 text-white"><i class="fas fa-check-circle text-primary me-2"></i> 1000 WhatsApp Blast</li>
+                            <li class="mb-3 text-white"><i class="fas fa-check-circle text-primary me-2"></i> Absensi Digital</li>
+                            <li class="mb-3 text-white"><i class="fas fa-check-circle text-primary me-2"></i> Support Prioritas</li>
+                        </ul>
+                        <a href="#" class="btn-glow w-100 text-center py-3 d-block text-decoration-none">Langganan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Referral Section -->
+    <section id="referral" class="container" data-aos="fade-up">
+        <div class="referral-banner">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-800 mb-3 text-white">Dapatkan Bonus Rp 50.000! 💸</h2>
+                    <p class="mb-0 text-white-50 fs-5">Ajak rekan sesama pemilik laundry menggunakan Dry24 Premium. Bonus langsung masuk ke saldo Anda untuk setiap referral sukses.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <a href="https://dry24.id/register" class="btn btn-light btn-lg rounded-pill px-5 fw-bold">Dapatkan Kode</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-100 mt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-center mb-5 fw-bold">Pertanyaan <span class="text-p-color">Sering Diajukan</span></h2>
+                    <div class="accordion accordion-flush" id="faqDry">
+                        <div class="accordion-item bg-transparent border-bottom border-secondary">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent text-white collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                                    Apakah data saya aman jika berlangganan?
+                                </button>
+                            </h2>
+                            <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqDry">
+                                <div class="accordion-body text-white-50">Kami menggunakan enkripsi SSL tingkat bank dan backup rutin untuk memastikan data transaksi Anda tidak hilang dan tidak bocor ke pihak manapun.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-transparent border-bottom border-secondary">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent text-white collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                                    Bisakah saya menggunakan printer bluetooth?
+                                </button>
+                            </h2>
+                            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqDry">
+                                <div class="accordion-body text-white-50">Tentu saja! Aplikasi Dry24 mendukung berbagai jenis thermal printer bluetooth untuk cetak struk fisik di tempat.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-100 pb-5 border-top border-secondary mt-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <img src="https://dry24.id/chain/assets/images/White-Laundry.png" height="40" class="mb-4">
+                    <p class="text-white-50">Membantu ribuan pengusaha laundry di Indonesia beralih ke digital. Efisien, transparan, dan terjangkau.</p>
+                    <div class="d-flex gap-3 fs-4 mt-4">
+                        <a href="#" class="text-white-50 hover-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white-50 hover-white"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="text-white-50 hover-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <h5 class="mb-4">Perusahaan</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white-50">Tentang Kami</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white-50">Kebijakan Privasi</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white-50">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 class="mb-4">Produk</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li class="mb-2"><a href="#fitur" class="text-decoration-none text-white-50">Fitur Utama</a></li>
+                        <li class="mb-2"><a href="#harga" class="text-decoration-none text-white-50">Daftar Harga</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-white-50">Update Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="mb-4">Kontak</h5>
+                    <p class="text-white-50"><i class="fas fa-envelope me-2"></i> management@dry24.id</p>
+                    <p class="text-white-50"><i class="fab fa-whatsapp me-2"></i> 0822-8500-2564</p>
+                    <p class="text-white-50"><i class="fas fa-map-marker-alt me-2"></i> Indonesia</p>
+                </div>
+            </div>
+            <div class="mt-5 pt-4 border-top border-secondary text-center text-white-50">
+                <p>© 2024–2026 PT. Riau Digital Venturer. Crafting Digital Excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const trigger = document.querySelector('.hero-area');
+        let started = false;
+
+        window.onscroll = () => {
+            if (window.scrollY >= 200 && !started) {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const updateCount = () => {
+                        const count = +counter.innerText;
+                        const speed = 100;
+                        const inc = target / speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 20);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    }
+                    updateCount();
+                });
+                started = true;
+            }
+        };
+    </script>
+</body>
+</html>

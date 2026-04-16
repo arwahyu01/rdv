@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="rX4N7VHgsw48ZSflVXtiV1Gdr8eLskJrmcm6lIeS">
+    <title>Dry24 — Kelola Laundry Anda dengan Cerdas & Praktis</title>
+    
+    <!-- SEO & Social Meta -->
+    <meta name="description" content="Solusi digital terintegrasi untuk mengelola bisnis laundry lebih efisien. Coba gratis 14 hari, tanpa kartu kredit.">
+    <meta property="og:title" content="Dry24 — Solusi Terbaik untuk Bisnis Laundry Anda">
+    <meta property="og:description" content="Kelola operasional laundry dalam satu sistem praktis. Multi cabang, WhatsApp otomatis, laporan real-time.">
+    <meta property="og:image" content="https://dry24.id/assets/og-image.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.6s ease forwards',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' },
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles for Advanced Effects -->
+    <style>
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-hover:hover {
+            background: rgba(51, 65, 85, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Gradient Button Shine */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-shine:hover::before {
+            left: 100%;
+        }
+        
+        /* Background Animation */
+        .bg-animated {
+            background-image: 
+                radial-gradient(ellipse at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+            background-attachment: fixed;
+        }
+        
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366f1, #22d3ee);
+            border-radius: 4px;
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Menu Transition */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Image Hover Zoom */
+        .img-zoom {
+            transition: transform 0.4s ease;
+        }
+        
+        .group:hover .img-zoom {
+            transform: scale(1.05);
+        }
+        
+        /* Feature Icon Glow */
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* Pricing Popular Badge */
+        .pricing-popular::before {
+            content: 'Paling Populer';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        /* Testimonial Quote */
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: #6366f1;
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            line-height: 1;
+        }
+        
+        /* Responsive Utilities */
+        @media (max-width: 768px) {
+            .hero-content {
+                text-align: center;
+            }
+            .hero-cta {
+                justify-content: center;
+            }
+            .hero-trust {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-100 font-sans antialiased bg-animated overflow-x-hidden">
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6282285002564?text=Hi%20Dry24" 
+       class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-400 rounded-full flex items-center justify-center text-white text-2xl shadow-lg shadow-emerald-500/40 transition-all duration-300 hover:scale-110 hover:shadow-emerald-500/60 animate-bounce"
+       target="_blank" 
+       aria-label="Chat via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header / Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-40 transition-all duration-300" id="header">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center text-white text-lg group-hover:shadow-lg group-hover:shadow-primary-500/40 transition-all duration-300">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight">Dry24</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="hidden lg:flex items-center gap-8">
+                <li><a href="#home" class="text-slate-300 hover:text-white font-medium transition-colors relative group">Beranda<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-400 group-hover:w-full transition-all duration-300"></span></a></li>
+                <li><a href="#features" class="text-slate-300 hover:text-white font-medium transition-colors relative group">Fitur<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-400 group-hover:w-full transition-all duration-300"></span></a></li>
+                <li><a href="#pricing" class="text-slate-300 hover:text-white font-medium transition-colors relative group">Paket<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-400 group-hover:w-full transition-all duration-300"></span></a></li>
+                <li><a href="#testimonials" class="text-slate-300 hover:text-white font-medium transition-colors relative group">Ulasan<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-400 group-hover:w-full transition-all duration-300"></span></a></li>
+                <li><a href="#blog" class="text-slate-300 hover:text-white font-medium transition-colors relative group">Blog<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-400 group-hover:w-full transition-all duration-300"></span></a></li>
+            </ul>
+            
+            <!-- Desktop Actions -->
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="https://dry24.id/login" class="px-5 py-2.5 rounded-full font-medium text-slate-300 hover:text-white border border-slate-600 hover:border-primary-500 transition-all duration-300">Masuk</a>
+                <a href="https://dry24.id/register" class="px-6 py-2.5 rounded-full font-semibold bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg shadow-primary-500/30 transition-all duration-300 btn-shine">Coba Gratis</a>
+            </div>
+            
+            <!-- Mobile Toggle -->
+            <button class="lg:hidden text-white text-2xl p-2" id="mobileToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="lg:hidden fixed inset-0 bg-dark-900/95 backdrop-blur-xl z-30 mobile-menu" id="mobileMenu">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex justify-end mb-8">
+                    <button class="text-white text-2xl" id="mobileClose" aria-label="Close menu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <ul class="flex flex-col gap-6 text-center">
+                    <li><a href="#home" class="text-xl font-medium text-slate-300 hover:text-white transition-colors mobile-link">Beranda</a></li>
+                    <li><a href="#features" class="text-xl font-medium text-slate-300 hover:text-white transition-colors mobile-link">Fitur</a></li>
+                    <li><a href="#pricing" class="text-xl font-medium text-slate-300 hover:text-white transition-colors mobile-link">Paket</a></li>
+                    <li><a href="#testimonials" class="text-xl font-medium text-slate-300 hover:text-white transition-colors mobile-link">Ulasan</a></li>
+                    <li><a href="#blog" class="text-xl font-medium text-slate-300 hover:text-white transition-colors mobile-link">Blog</a></li>
+                </ul>
+                <div class="flex flex-col gap-4 mt-12">
+                    <a href="https://dry24.id/login" class="w-full py-3 rounded-full font-medium text-center border border-slate-600 hover:border-primary-500 transition-all">Masuk</a>
+                    <a href="https://dry24.id/register" class="w-full py-3 rounded-full font-semibold bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg">Coba Gratis</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden" id="home">
+        <!-- Animated Background Glow -->
+        <div class="absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 -left-20 w-80 h-80 bg-accent-400/15 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: -2s"></div>
+        
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="hero-content space-y-6">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-accent-400 animate-fade-in-up" style="animation-delay: 0.1s">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Gratis 14 hari • Tanpa kartu kredit</span>
+                    </div>
+                    
+                    <!-- Headline -->
+                    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight animate-fade-in-up" style="animation-delay: 0.2s">
+                        Kelola Bisnis Laundry Anda <span class="text-gradient">Lebih Cerdas & Praktis</span>
+                    </h1>
+                    
+                    <!-- Subheadline -->
+                    <p class="text-lg text-slate-300 max-w-xl animate-fade-in-up" style="animation-delay: 0.3s">
+                        Dry24 membantu Anda mengotomatisasi operasional, meningkatkan efisiensi, dan fokus pada pertumbuhan bisnis — semua dalam satu platform terintegrasi.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4 animate-fade-in-up" style="animation-delay: 0.4s">
+                        <a href="https://play.google.com/store/apps/details?id=com.cleancloudapp.dry24.laundry" 
+                           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg shadow-primary-500/30 transition-all duration-300 btn-shine text-lg">
+                            <i class="fab fa-google-play"></i>
+                            Unduh Aplikasi
+                        </a>
+                        <a href="#pricing" 
+                           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white border-2 border-primary-500/50 hover:border-primary-400 hover:bg-primary-500/10 transition-all duration-300 text-lg">
+                            Lihat Paket
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Trust Badges -->
+                    <div class="flex flex-wrap items-center gap-6 pt-4 animate-fade-in-up" style="animation-delay: 0.5s">
+                        <div class="flex items-center gap-2 text-sm text-slate-400">
+                            <i class="fas fa-check-circle text-emerald-400"></i>
+                            <span>186+ toko aktif</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-400">
+                            <i class="fas fa-check-circle text-emerald-400"></i>
+                            <span>76.9K+ transaksi</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-400">
+                            <i class="fas fa-check-circle text-emerald-400"></i>
+                            <span>Support 24/7</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="hero-image relative flex justify-center lg:justify-end animate-fade-in-up" style="animation-delay: 0.6s">
+                    <div class="relative">
+                        <!-- Glow Effect -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary-500/30 to-accent-400/20 rounded-3xl blur-2xl animate-pulse-slow"></div>
+                        
+                        <!-- Main Image with Float Animation -->
+                        <img src="https://dry24.id/chain/assets/images/d-3.png" 
+                             alt="Dry24 Dashboard Preview" 
+                             class="relative w-full max-w-md lg:max-w-lg rounded-3xl  shadow-primary-500/20 animate-float"
+                             loading="lazy">
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg animate-bounce" style="animation-delay: 0s">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-500 rounded-xl flex items-center justify-center text-white shadow-lg animate-bounce" style="animation-delay: 0.5s">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 border-y border-white/10 bg-dark-800/50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center reveal">
+                    <div class="text-4xl md:text-5xl font-display font-bold text-gradient mb-2" data-count="166">0</div>
+                    <div class="text-slate-400">Mitra Terpercaya</div>
+                </div>
+                <div class="text-center reveal">
+                    <div class="text-4xl md:text-5xl font-display font-bold text-gradient mb-2" data-count="186">0</div>
+                    <div class="text-slate-400">Toko Aktif</div>
+                </div>
+                <div class="text-center reveal">
+                    <div class="text-4xl md:text-5xl font-display font-bold text-gradient mb-2" data-count="76974">0</div>
+                    <div class="text-slate-400">Transaksi Selesai</div>
+                </div>
+                <div class="text-center reveal">
+                    <div class="text-4xl md:text-5xl font-display font-bold text-gradient mb-2">24/7</div>
+                    <div class="text-slate-400">Dukungan Penuh</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20" id="features">
+        <div class="container mx-auto px-4">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    Semua yang Anda Butuhkan, <span class="text-gradient">Dalam Satu Platform</span>
+                </h2>
+                <p class="text-lg text-slate-400">
+                    Fitur-fitur dirancang khusus untuk membantu bisnis laundry Anda berkembang dengan lebih efisien dan profesional.
+                </p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">Multi Cabang</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Kelola semua outlet dari satu dashboard. Pantau performa, stok, dan tim secara real-time dari mana saja.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">WhatsApp Otomatis</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Kirim notifikasi status cucian & tagihan secara otomatis. Hemat waktu, tingkatkan kepuasan pelanggan.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">Promosi Cerdas</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Kirim broadcast promo ke pelanggan via WhatsApp. Tingkatkan repeat order dengan strategi marketing yang tepat.
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">Absensi Digital</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Pantau kehadiran dan produktivitas tim. Data akurat untuk pengambilan keputusan yang lebih baik.
+                    </p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">Landing Page Gratis</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Dapatkan website profesional untuk bisnis laundry Anda. Tampil kredibel dan mudah ditemukan pelanggan.
+                    </p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="glass glass-hover rounded-2xl p-6 feature-card reveal">
+                    <div class="feature-icon w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-primary-400 text-2xl mb-5 mx-auto">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-3 text-center">Support Seumur Hidup</h3>
+                    <p class="text-slate-400 text-center text-sm leading-relaxed">
+                        Tim kami siap membantu kapan saja. Tanpa biaya tambahan, karena kesuksesan Anda adalah prioritas kami.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="glass rounded-3xl p-8 md:p-12 text-center reveal">
+                <h3 class="font-display text-2xl md:text-3xl font-bold mb-4">
+                    Siap Mengubah Cara Anda Kelola Laundry?
+                </h3>
+                <p class="text-slate-300 max-w-2xl mx-auto mb-8 text-lg">
+                    Coba Dry24 gratis selama 14 hari. Rasakan sendiri bagaimana teknologi bisa membuat bisnis Anda lebih efisien dan berkembang.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://dry24.id/register" 
+                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg shadow-primary-500/30 transition-all duration-300 btn-shine text-lg">
+                        <i class="fas fa-rocket"></i>
+                        Mulai Uji Coba Gratis
+                    </a>
+                </div>
+                <p class="text-slate-500 text-sm mt-4">* Tidak memerlukan kartu kredit • Batal kapan saja</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-20" id="pricing">
+        <div class="container mx-auto px-4">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    Pilih Paket yang <span class="text-gradient">Paling Cocok</span> untuk Bisnis Anda
+                </h2>
+                <p class="text-lg text-slate-400">
+                    Transparan, fleksibel, dan tanpa biaya tersembunyi. Tingkatkan paket kapan saja saat bisnis Anda berkembang.
+                </p>
+            </div>
+            
+            <!-- Pricing Grid -->
+            <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                
+                <!-- Demo Plan -->
+                <div class="glass rounded-2xl p-6 md:p-8 flex flex-col reveal">
+                    <div class="text-center pb-6 border-b border-white/10 mb-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">Paket Demo</h3>
+                        <div class="flex items-baseline justify-center gap-1">
+                            <span class="text-slate-400">Rp</span>
+                            <span class="font-display text-4xl font-bold">0</span>
+                            <span class="text-slate-400">/14 hari</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Akses penuh 14 hari</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>24/7 akses layanan</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Notifikasi WhatsApp unlimited</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500">
+                            <i class="fas fa-times text-slate-600"></i>
+                            <span class="line-through">Landing Page</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500">
+                            <i class="fas fa-times text-slate-600"></i>
+                            <span class="line-through">WhatsApp Blast</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500">
+                            <i class="fas fa-times text-slate-600"></i>
+                            <span class="line-through">Absensi Pegawai</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://dry24.id/register" 
+                       class="w-full py-3 rounded-full font-semibold text-center border-2 border-primary-500/50 hover:border-primary-400 hover:bg-primary-500/10 transition-all duration-300">
+                        Coba Gratis
+                    </a>
+                </div>
+                
+                <!-- Standard Plan (Popular) -->
+                <div class="glass rounded-2xl p-6 md:p-8 flex flex-col relative pricing-popular border-2 border-primary-500/50 reveal">
+                    <div class="text-center pb-6 border-b border-white/10 mb-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">Paket Standard</h3>
+                        <div class="flex items-baseline justify-center gap-1">
+                            <span class="text-slate-400">Rp</span>
+                            <span class="font-display text-4xl font-bold">55.000</span>
+                            <span class="text-slate-400">/bulan</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Akses penuh 30 hari</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>24/7 akses layanan</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Support seumur hidup</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Landing Page profesional</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Notifikasi WhatsApp unlimited</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500">
+                            <i class="fas fa-times text-slate-600"></i>
+                            <span class="line-through">WhatsApp Blast</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-500">
+                            <i class="fas fa-times text-slate-600"></i>
+                            <span class="line-through">Absensi Pegawai</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://dry24.id/admin/product" 
+                       class="w-full py-3 rounded-full font-semibold text-center bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg shadow-primary-500/30 transition-all duration-300 btn-shine">
+                        Berlangganan
+                    </a>
+                </div>
+                
+                <!-- Advanced Plan -->
+                <div class="glass rounded-2xl p-6 md:p-8 flex flex-col reveal">
+                    <div class="text-center pb-6 border-b border-white/10 mb-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">Paket Advanced</h3>
+                        <div class="flex items-baseline justify-center gap-1">
+                            <span class="text-slate-400">Rp</span>
+                            <span class="font-display text-4xl font-bold">85.000</span>
+                            <span class="text-slate-400">/bulan</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Semua fitur Standard</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>1.000 WhatsApp Blast/bulan</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Absensi Pegawai digital</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Laporan analitik lanjutan</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Prioritas support</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i class="fas fa-check text-emerald-400"></i>
+                            <span>Integrasi payment gateway</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://dry24.id/admin/product" 
+                       class="w-full py-3 rounded-full font-semibold text-center border-2 border-primary-500/50 hover:border-primary-400 hover:bg-primary-500/10 transition-all duration-300">
+                        Berlangganan
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Referral Note -->
+            <div class="text-center mt-12 reveal">
+                <p class="text-slate-400">
+                    <i class="fas fa-gift text-accent-400 mr-2"></i>
+                    <strong>Program Referral:</strong> Undang teman, dapatkan bonus Rp50.000 untuk setiap referral yang berlangganan Premium!
+                </p>
+                <a href="https://dry24.id/register" class="inline-flex items-center gap-2 mt-4 px-6 py-2.5 rounded-full font-medium text-white border border-slate-600 hover:border-primary-500 transition-all">
+                    Dapatkan Kode Referral
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-dark-800/30" id="testimonials">
+        <div class="container mx-auto px-4">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    Apa Kata <span class="text-gradient">Pengguna Dry24</span>
+                </h2>
+                <p class="text-lg text-slate-400">
+                    Cerita nyata dari mitra laundry yang telah merasakan manfaat Dry24 dalam mengelola bisnis mereka.
+                </p>
+            </div>
+            
+            <!-- Testimonials Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Testimonial 1 -->
+                <div class="glass rounded-2xl p-6 reveal relative testimonial-quote">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center font-bold text-white text-lg">D</div>
+                        <div>
+                            <h4 class="font-semibold">Deri Kartono</h4>
+                            <p class="text-sm text-slate-400">Pemilik Laundry Express</p>
+                        </div>
+                    </div>
+                    <div class="flex text-amber-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 italic text-sm leading-relaxed">
+                        Dari Oktober sampai sekarang, Dry24 jadi partner terbaik. Fitur lengkap, update rutin, dan bikin semua proses laundry jadi jauh lebih mudah.
+                    </p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="glass rounded-2xl p-6 reveal relative testimonial-quote">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center font-bold text-white text-lg">R</div>
+                        <div>
+                            <h4 class="font-semibold">Rendi Aja</h4>
+                            <p class="text-sm text-slate-400">Laundry Fresh & Clean</p>
+                        </div>
+                    </div>
+                    <div class="flex text-amber-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 italic text-sm leading-relaxed">
+                        Fitur broadcast WhatsApp-nya sangat berguna! Saya bisa kirim info promo langsung ke pelanggan. Repeat order meningkat signifikan.
+                    </p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="glass rounded-2xl p-6 reveal relative testimonial-quote md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center font-bold text-white text-lg">M</div>
+                        <div>
+                            <h4 class="font-semibold">Muhammad Fazil</h4>
+                            <p class="text-sm text-slate-400">Laundry Keluarga</p>
+                        </div>
+                    </div>
+                    <div class="flex text-amber-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 italic text-sm leading-relaxed">
+                        Aplikasi yang sangat mudah digunakan. Transaksi tanpa batas, pencarian cepat, dan laporan keuangan yang rapi. Bisnis keluarga kami jadi jauh lebih terkelola.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Google Play CTA -->
+            <div class="text-center mt-12 reveal">
+                <a href="https://play.google.com/store/apps/details?id=com.cleancloudapp.dry24.laundry" 
+                   target="_blank"
+                   class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-300">
+                    <i class="fab fa-google-play text-2xl"></i>
+                    <div class="text-left">
+                        <div class="text-xs text-slate-400">Download di</div>
+                        <div class="font-bold">Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-20" id="blog">
+        <div class="container mx-auto px-4">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    <span class="text-gradient">Tips & Insight</span> Seputar Bisnis Laundry
+                </h2>
+                <p class="text-lg text-slate-400">
+                    Kami berkomitmen mendukung pertumbuhan bisnis Anda melalui konten edukatif dan praktis.
+                </p>
+            </div>
+            
+            <!-- Blog Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Blog Post 1 -->
+                <article class="group glass rounded-2xl overflow-hidden reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://dry24.id/admin/file/stream/a0980c07-77a2-4d31-8c87-8820f2fb2338/kenapa-banyak-laundry-tutup-dalam-1-tahun-pertama-69e0c35d5fd2a" 
+                             alt="Artikel" 
+                             class="w-full h-48 object-cover img-zoom"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-xs text-slate-400 mb-3">
+                            <i class="far fa-calendar mr-2"></i>15 Des 2024
+                        </p>
+                        <h3 class="font-display font-semibold text-lg mb-3 group-hover:text-primary-400 transition-colors">
+                            Kenapa Banyak Laundry Tutup dalam 1 Tahun Pertama?
+                        </h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">
+                            Usaha laundry sering dianggap mudah, tapi banyak yang tutup cepat. Temukan penyebab utamanya dan cara menghindarinya.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-medium text-sm transition-colors">
+                            Baca Selengkapnya
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 2 -->
+                <article class="group glass rounded-2xl overflow-hidden reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://dry24.id/admin/file/stream/9e6e8500-bf74-441f-b55f-2f059397e225/cara-efektif-mengelola-keuangan-usaha-laundry-agar-lebih-menguntungkan-69e0c35d63b08" 
+                             alt="Artikel" 
+                             class="w-full h-48 object-cover img-zoom"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-xs text-slate-400 mb-3">
+                            <i class="far fa-calendar mr-2"></i>15 Mar 2025
+                        </p>
+                        <h3 class="font-display font-semibold text-lg mb-3 group-hover:text-primary-400 transition-colors">
+                            Cara Efektif Mengelola Keuangan Usaha Laundry
+                        </h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">
+                            Kelola keuangan dengan baik adalah kunci profitabilitas. Pelajari strategi praktis yang bisa langsung diterapkan.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-medium text-sm transition-colors">
+                            Baca Selengkapnya
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 3 -->
+                <article class="group glass rounded-2xl overflow-hidden reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://dry24.id/admin/file/stream/9e28f823-8ae7-4b98-b9c6-e9e5d7dac542/modern-laundry-business-69e0c35d64219" 
+                             alt="Artikel" 
+                             class="w-full h-48 object-cover img-zoom"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-xs text-slate-400 mb-3">
+                            <i class="far fa-calendar mr-2"></i>8 Feb 2025
+                        </p>
+                        <h3 class="font-display font-semibold text-lg mb-3 group-hover:text-primary-400 transition-colors">
+                            Mengapa Digitalisasi Penting untuk Bisnis Laundry?
+                        </h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">
+                            Di era digital, bisnis manual tertinggal. Temukan manfaat konkret aplikasi laundry untuk pertumbuhan bisnis Anda.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-medium text-sm transition-colors">
+                            Baca Selengkapnya
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- View More -->
+            <div class="text-center mt-12 reveal">
+                <a href="#blog" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-white border border-slate-600 hover:border-primary-500 transition-all">
+                    Lihat Semua Artikel
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="glass rounded-3xl p-8 md:p-12 text-center reveal">
+                <h3 class="font-display text-2xl md:text-3xl font-bold mb-4">
+                    Mulai Perjalanan Bisnis Laundry Anda Hari Ini
+                </h3>
+                <p class="text-slate-300 max-w-2xl mx-auto mb-8 text-lg">
+                    Tidak perlu menunggu sempurna. Mulailah dengan langkah kecil, dan biarkan Dry24 membantu Anda berkembang.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://dry24.id/register" 
+                       class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg shadow-primary-500/30 transition-all duration-300 btn-shine text-lg">
+                        <i class="fas fa-play-circle"></i>
+                        Mulai Gratis Sekarang
+                    </a>
+                </div>
+                <p class="text-slate-500 text-sm mt-4">* Gratis 14 hari • Tanpa komitmen • Batal kapan saja</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-12 bg-dark-800/50">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Brand -->
+                <div class="lg:col-span-1">
+                    <a href="#" class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center text-white text-lg">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <span class="font-display font-bold text-xl">Dry24</span>
+                    </a>
+                    <p class="text-slate-400 mb-6 text-sm">
+                        Anti Ribet, Semua Jadi Cepat.<br>
+                        Solusi digital untuk bisnis laundry Indonesia.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://instagram.com/dry24.id" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary-500 transition-all" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://facebook.com/dry24" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary-500 transition-all" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://tiktok.com/@dry24.id" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary-500 transition-all" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://youtube.com/@Dry24ID" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary-500 transition-all" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Produk</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#features" class="text-slate-400 hover:text-white transition-colors">Fitur</a></li>
+                        <li><a href="#pricing" class="text-slate-400 hover:text-white transition-colors">Harga</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Integrasi</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Update</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Perusahaan</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#blog" class="text-slate-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Karir</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Dukungan</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li>
+                            <a href="https://wa.me/6282285002564" class="text-slate-400 hover:text-white transition-colors flex items-center gap-2">
+                                <i class="fab fa-whatsapp text-emerald-400"></i>
+                                WhatsApp Support
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:management@dry24.id" class="text-slate-400 hover:text-white transition-colors flex items-center gap-2">
+                                <i class="fas fa-envelope text-primary-400"></i>
+                                management@dry24.id
+                            </a>
+                        </li>
+                        <li><a href="https://dry24.id/privacy-policy" class="text-slate-400 hover:text-white transition-colors">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/10 text-center text-sm text-slate-500">
+                <p>&copy; 2024–2026 <strong>PT. Riau Digital Venturer</strong>. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-dark-900/95', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            } else {
+                header.classList.remove('bg-dark-900/95', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        mobileToggle.addEventListener('click', toggleMobileMenu);
+        mobileClose.addEventListener('click', toggleMobileMenu);
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Reveal on scroll animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Animated counter for stats
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            function update() {
+                start += increment;
+                if (start < target) {
+                    element.textContent = Math.floor(start).toLocaleString('id-ID');
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = target.toLocaleString('id-ID');
+                }
+            }
+            update();
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsSection = document.querySelector('[data-count]');
+        let countersAnimated = false;
+        
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !countersAnimated) {
+                    countersAnimated = true;
+                    document.querySelectorAll('[data-count]').forEach(el => {
+                        const target = parseInt(el.dataset.count);
+                        animateCounter(el, target);
+                    });
+                }
+            }, { threshold: 0.5 });
+            
+            statsObserver.observe(statsSection);
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
