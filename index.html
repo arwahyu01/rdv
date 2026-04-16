@@ -14,7 +14,6 @@
     <style>
         :root {
             --accent: #00f2ff;
-            --secondary: #7000ff;
             --bg-dark: #020617;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -27,22 +26,21 @@
             margin: 0; overflow-x: hidden;
         }
 
-        /* FIX: 3D Background berada di paling belakang */
+        /* FIX 1: Canvas Background - Pointer events harus NONE */
         #canvas-container {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: -1; 
-            pointer-events: none; /* Agar tidak menghalangi klik */
+            z-index: 1; /* Di paling bawah */
+            pointer-events: none; 
         }
 
-        /* Lapisan Konten Utama */
-        #main-wrapper {
+        /* FIX 2: Wrapper utama harus di atas canvas */
+        #main-content {
             position: relative;
-            z-index: 10; /* Pastikan di atas canvas */
+            z-index: 10; 
         }
 
-        /* Navbar FIX */
         .navbar {
             backdrop-filter: blur(20px);
             background: rgba(2, 6, 23, 0.8);
@@ -50,12 +48,7 @@
             z-index: 1000;
         }
 
-        .navbar-brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700; font-size: 1.8rem; color: #fff !important;
-        }
-
-        /* Hero */
+        /* Hero Section */
         .hero-section {
             min-height: 100vh;
             display: flex; align-items: center;
@@ -70,92 +63,72 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Bento Card Modern */
+        /* Bento Card Fix */
         .bento-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 30px;
-            padding: 35px;
+            padding: 40px;
             height: 100%;
             position: relative;
             backdrop-filter: blur(10px);
             transition: 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            z-index: 5; /* Di bawah tombol */
         }
 
         .bento-card:hover {
             border-color: var(--accent);
+            transform: translateY(-5px);
             background: rgba(255,255,255,0.06);
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
         }
 
         .card-icon {
-            font-size: 2.5rem; color: var(--accent); margin-bottom: 20px;
+            font-size: 2.5rem; color: var(--accent); margin-bottom: 25px;
             filter: drop-shadow(0 0 10px var(--accent));
         }
 
-        /* FIX TOMBOL: Pastikan z-index tinggi dan position relative */
-        .btn-action {
+        /* FIX 3: Styling Tombol agar Pasti Bisa Diklik */
+        .btn-clickable {
             position: relative;
-            z-index: 50;
+            z-index: 999 !important; /* Nilai tertinggi agar di atas semua efek */
+            display: inline-block;
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-main {
             background: var(--accent);
             color: #000 !important;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 12px;
             font-weight: 800;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-            cursor: pointer;
+            padding: 12px 30px;
+            border-radius: 12px;
+            border: none;
         }
 
-        .btn-action:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4);
+        .btn-main:hover {
+            box-shadow: 0 0 30px var(--accent);
+            transform: scale(1.05);
         }
 
-        .btn-outline-custom {
+        .btn-outline-variant {
             border: 1px solid var(--accent);
             color: var(--accent) !important;
+            font-weight: 700;
             padding: 11px 25px;
             border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.3s;
         }
 
-        .btn-outline-custom:hover {
+        .btn-outline-variant:hover {
             background: rgba(0, 242, 255, 0.1);
-            color: white !important;
-        }
-
-        /* Alamat & Profil Section */
-        .profile-section {
-            padding: 100px 0;
-            background: rgba(0,0,0,0.3);
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .address-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
+            color: #fff !important;
         }
 
         .tech-tag {
-            font-size: 10px; font-weight: 800;
-            padding: 5px 12px; border-radius: 100px;
-            background: rgba(0,242,255,0.1); color: var(--accent);
-            margin-right: 5px;
-        }
-
-        footer {
-            padding: 40px 0; border-top: 1px solid var(--glass-border);
-            text-align: center; color: #475569; font-size: 14px;
+            font-size: 10px; font-weight: 800; padding: 5px 12px;
+            background: rgba(0, 242, 255, 0.1); color: var(--accent);
+            border-radius: 100px; margin-right: 5px;
         }
     </style>
 </head>
